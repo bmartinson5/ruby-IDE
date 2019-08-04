@@ -1,4 +1,5 @@
 div[contenteditable="true"]{
+  position: absolute;
 	width: 800px;
 	height: 700px;
   margin-top: 10px;
@@ -7,10 +8,23 @@ div[contenteditable="true"]{
   outline: none;
 	border: 3px solid #cccccc;
 	padding: 40px;
+  padding-left: 60px;
 	font-family: Tahoma, sans-serif;
 }
+.code-container {
+  position: relative;
+}
 
-h2 {
-  margin-left: 50px;
-  margin-top: 25px;
+.side-numbers {
+	font-family: Tahoma, sans-serif;
+  position: absolute;
+  width: 10px;
+  margin-top: 53.5px;
+  left: 80px;
+  color: green;
+  z-index: 10;
+}
+
+.side-numbers, div[contenteditable="true"] {
+  line-height: 28px;
 }
