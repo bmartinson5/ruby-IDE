@@ -3,7 +3,7 @@ import * as Draft from "draft-js";
 import './CodeContent.css';
 
 
-
+const {hasCommandModifier} = Draft.KeyBindingUtil;
 
 const HASHTAG_REGEX = /\b(def|end)\b/g;
 
@@ -14,6 +14,8 @@ const HashtagSpan = (props) => {
 function hashtagStrategy(contentBlock, callback, contentState) {
   findWithRegex(HASHTAG_REGEX, contentBlock, callback);
 }
+
+
 
 function findWithRegex(regex, contentBlock, callback) {
   const text = contentBlock.getText();
@@ -82,13 +84,27 @@ const firstEditor = createWithRawContent({
     ]
 });
 
+// function keyBindingFn(e: SyntheticKeyboardEvent): string {
+//   console.log('e.key', e.keycode);
+//   if (e.keyCode === 13) {
+//
+//   }
+//   return Draft.getDefaultKeyBinding(e);
+// }
+//
+
+
 export default class HashtagDecorator extends React.Component {
-  state = {
-    // editorState: Draft.EditorState.createEmpty(compositeDecorator),
-    editorState: firstEditor,
-    lineNums: 4,
-    text: "",
-  };
+  constructor(props){
+    super(props);
+    this.keyBindingFn = this.keyBindingFn.bind(this);
+    this.state = {
+      // editorState: Draft.EditorState.createEmpty(compositeDecorator),
+      editorState: firstEditor,
+      lineNums: 4,
+      text: "",
+    };
+  }
 
 
 
@@ -104,23 +120,57 @@ export default class HashtagDecorator extends React.Component {
     const plainText = contentState.getPlainText();
   }
 
+  setSelection = (offset, focusOffset) => {
+    offset = 4
+    focusOffset = 4
+    const {editorState} = this.state;
+    const selectionState = editorState.getSelection();
+
+    // we cant set the selection state directly because its immutable.
+    // so make a copy
+    const newSelection = selectionState.merge({
+        anchorOffset: offset,
+        focusOffset: focusOffset,
+    })
+
+    // Draft API helper set the selection into a new editorState
+    const newEditorState = Draft.EditorState.forceSelection(editorState, newSelection);
+
+    // update the editorState
+    this.editorStateChanged(newEditorState);
+  }
+
+  keyBindingFn(e: SyntheticKeyboardEvent): string {
+    if (e.keyCode === 13) {
+      console.log('e.key', e.keyCode);
+      this.handleTab(e)
+      // Draft.Modifier.insertText()
+      return
+    }
+    return Draft.getDefaultKeyBinding(e);
+  }
+
   editorStateChanged = (newEditorState: Draft.EditorState) => {
     this.setState({
       editorState: newEditorState,
     }, () => {
       this.setLineNums()
+      this.contentState()
     });
   }
 
   handleTab = (e) => {
     e.preventDefault();
-
     let currentState = this.state.editorState;
+    console.log(currentState);
+    console.log(currentState.getCurrentContent());
+    console.log(currentState.getSelection());
     let newContentState = Draft.Modifier.replaceText(
       currentState.getCurrentContent(),
       currentState.getSelection(),
-      "    "
+      "\n    "
     );
+    // need to split the block
 
     this.setState({
       editorState: Draft.EditorState.push(currentState, newContentState, 'insert-characters')
@@ -130,6 +180,7 @@ export default class HashtagDecorator extends React.Component {
 
 
   render() {
+
     const lineNumsOutput = [];
     for(let i = 1; i <= this.state.lineNums; ++i){
       lineNumsOutput.push(<div className="line-number" key={i.toString()}>{i.toString()}</div>);
@@ -141,10 +192,13 @@ export default class HashtagDecorator extends React.Component {
           <div className="side-numbers">
             {lineNumsOutput}
           </div>
+          <button type="button" onClick={this.setSelection}>Set Selection</button>
+          <button type="button" onClick={this.handleTab}>Tab</button>
           <Draft.Editor
             editorState={this.state.editorState}
             onChange={this.editorStateChanged}
             onTab={this.handleTab}
+            keyBindingFn={this.keyBindingFn}
             />
         </div>
       </div>
