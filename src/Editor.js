@@ -103,6 +103,7 @@ export default class HashtagDecorator extends React.Component {
       editorState: firstEditor,
       lineNums: 4,
       text: "",
+      lastTab: false,
     };
   }
 
@@ -143,7 +144,8 @@ export default class HashtagDecorator extends React.Component {
   keyBindingFn(e: SyntheticKeyboardEvent): string {
     if (e.keyCode === 13) {
       console.log('e.key', e.keyCode);
-      this.handleTab(e)
+      this.splitCurrentBlock()
+      this.handleReturn(e)
       // Draft.Modifier.insertText()
       return
     }
@@ -159,19 +161,48 @@ export default class HashtagDecorator extends React.Component {
     });
   }
 
+  handleReturn = () => {
+    // e.preventDefault();
+    let currentState = this.state.editorState;
+    // console.log(currentState.getCurrentContent().getEntity());
+    let newContentState = Draft.Modifier.splitBlock(
+      currentState.getCurrentContent(),
+      currentState.getSelection(),
+    );    // need to split the block;
+    console.log(newContentState);
+
+    newContentState = Draft.Modifier.replaceText(
+      newContentState,
+      newContentState.getSelectionBefore(),
+      "\n    "
+    );    // need to split the block;
+
+
+
+    this.setState({
+      editorState: Draft.EditorState.push(currentState, newContentState, 'insert-characters')
+    }, this.splitCurrentBlock());
+  }
+
+  splitCurrentBlock = () => {
+    let currentState = this.state.editorState;
+    let newContentState = Draft.Modifier.splitBlock(
+      currentState.getCurrentContent(),
+      currentState.getSelection(),
+    );    // need to split the block;
+    this.setState({
+      editorState: Draft.EditorState.push(currentState, newContentState, 'insert-characters')
+    });
+  }
+
   handleTab = (e) => {
     e.preventDefault();
     let currentState = this.state.editorState;
-    console.log(currentState);
-    console.log(currentState.getCurrentContent());
-    console.log(currentState.getSelection());
     let newContentState = Draft.Modifier.replaceText(
       currentState.getCurrentContent(),
       currentState.getSelection(),
-      "\n    "
+      "    "
     );
-    // need to split the block
-
     this.setState({
       editorState: Draft.EditorState.push(currentState, newContentState, 'insert-characters')
     });
