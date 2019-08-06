@@ -59,7 +59,7 @@ const firstEditor = createWithRawContent({
         },
         {
             "key": "5h45r",
-            "text": "   Your code here...",
+            "text": "    Your code here...",
             "type": "unstyled",
             "depth": 0,
             "entityRanges": [],
@@ -84,15 +84,6 @@ const firstEditor = createWithRawContent({
     ]
 });
 
-// function keyBindingFn(e: SyntheticKeyboardEvent): string {
-//   console.log('e.key', e.keycode);
-//   if (e.keyCode === 13) {
-//
-//   }
-//   return Draft.getDefaultKeyBinding(e);
-// }
-//
-
 
 export default class HashtagDecorator extends React.Component {
   constructor(props){
@@ -103,7 +94,7 @@ export default class HashtagDecorator extends React.Component {
       editorState: firstEditor,
       lineNums: 4,
       text: "",
-      needTab: false,
+      lastWasReturn: false,
     };
   }
 
@@ -143,13 +134,7 @@ export default class HashtagDecorator extends React.Component {
 
   keyBindingFn(e: SyntheticKeyboardEvent): string {
     if (e.keyCode === 13) {
-      console.log('e.key', e.keyCode);
-      this.setState({needTab: true})
-      // this.splitCurrentBlock()
-      //e.preventDefault();
-      //this.handleReturn(e)
-      // Draft.Modifier.insertText()
-      //return
+      this.setState({lastWasReturn: true})
     }
     return Draft.getDefaultKeyBinding(e);
   }
@@ -163,26 +148,6 @@ export default class HashtagDecorator extends React.Component {
     });
   }
 
-  handleReturn = () => {
-    let currentState = this.state.editorState;
-    // console.log(currentState.getCurrentContent().getEntity());
-    let newContentState = Draft.Modifier.splitBlock(
-      currentState.getCurrentContent(),
-      currentState.getSelection(),
-    );    // need to split the block;
-    console.log(newContentState);
-
-    newContentState = Draft.Modifier.replaceText(
-      newContentState,
-      newContentState.getSelectionBefore(),
-      "\n    "
-    );    // need to split the block;
-
-    this.setState({
-      editorState: Draft.EditorState.push(currentState, newContentState, 'insert-characters')
-    }, this.splitCurrentBlock());
-  }
-
   splitCurrentBlock = () => {
     let currentState = this.state.editorState;
     let newContentState = Draft.Modifier.splitBlock(
@@ -194,6 +159,28 @@ export default class HashtagDecorator extends React.Component {
     });
   }
 
+  handleReturn = (offNum, newScopeStarted) => {
+    let spaces = " ".padStart(offNum, " ");
+    let currentState = this.state.editorState;
+    let newContentState = Draft.Modifier.replaceText(
+      currentState.getCurrentContent(),
+      currentState.getSelection(),
+      spaces
+    );
+
+    if(newScopeStarted){
+      newContentState = Draft.Modifier.replaceText(
+        newContentState,
+        newContentState.getSelectionAfter(),
+        "    "
+      );
+    }
+
+    this.setState({
+      editorState: Draft.EditorState.push(currentState, newContentState, 'insert-characters')
+    });
+
+  }
 
 
   handleTab = (e) => {
@@ -209,13 +196,35 @@ export default class HashtagDecorator extends React.Component {
     });
   }
 
+  getCurrentLine = () => {
+    const currentBlockKey = this.state.editorState.getSelection().getStartKey()
+    const currentBlockIndex = this.state.editorState.getCurrentContent().getBlockMap()
+      .keySeq().findIndex(k => k === currentBlockKey)
+    return currentBlockIndex;
+  }
+
+  prevLineStartedScope = (prevLine) => {
+    const result = prevLine.match(/\b(def|if)\b/g) !== null;
+    console.log('result', result);
+    return result;
+  }
+
+  checkForReturn = () => {
+    if(this.state.lastWasReturn){
+      const lineNum = this.getCurrentLine();
+      const prevLineNum = (lineNum === 0 ? 0 : lineNum-1);
+      const prevLine = this.state.editorState.getCurrentContent().getBlocksAsArray()[prevLineNum].text;
+      const offset = prevLine.search(/\S/);
+      console.log(offset);
+      this.setState({lastWasReturn: false})
+      this.handleReturn(offset, this.prevLineStartedScope(prevLine))
+    }
+  }
+
 
 
   render() {
-    if(this.state.needTab){
-      this.setState({needTab: false})
-      this.handleTab()
-    }
+    this.checkForReturn()
 
     const lineNumsOutput = [];
     for(let i = 1; i <= this.state.lineNums; ++i){
