@@ -103,7 +103,7 @@ export default class HashtagDecorator extends React.Component {
       editorState: firstEditor,
       lineNums: 4,
       text: "",
-      lastTab: false,
+      needTab: false,
     };
   }
 
@@ -144,10 +144,12 @@ export default class HashtagDecorator extends React.Component {
   keyBindingFn(e: SyntheticKeyboardEvent): string {
     if (e.keyCode === 13) {
       console.log('e.key', e.keyCode);
-      this.splitCurrentBlock()
-      this.handleReturn(e)
+      this.setState({needTab: true})
+      // this.splitCurrentBlock()
+      //e.preventDefault();
+      //this.handleReturn(e)
       // Draft.Modifier.insertText()
-      return
+      //return
     }
     return Draft.getDefaultKeyBinding(e);
   }
@@ -162,7 +164,6 @@ export default class HashtagDecorator extends React.Component {
   }
 
   handleReturn = () => {
-    // e.preventDefault();
     let currentState = this.state.editorState;
     // console.log(currentState.getCurrentContent().getEntity());
     let newContentState = Draft.Modifier.splitBlock(
@@ -176,8 +177,6 @@ export default class HashtagDecorator extends React.Component {
       newContentState.getSelectionBefore(),
       "\n    "
     );    // need to split the block;
-
-
 
     this.setState({
       editorState: Draft.EditorState.push(currentState, newContentState, 'insert-characters')
@@ -195,8 +194,10 @@ export default class HashtagDecorator extends React.Component {
     });
   }
 
+
+
   handleTab = (e) => {
-    e.preventDefault();
+    if(e) e.preventDefault();
     let currentState = this.state.editorState;
     let newContentState = Draft.Modifier.replaceText(
       currentState.getCurrentContent(),
@@ -211,6 +212,10 @@ export default class HashtagDecorator extends React.Component {
 
 
   render() {
+    if(this.state.needTab){
+      this.setState({needTab: false})
+      this.handleTab()
+    }
 
     const lineNumsOutput = [];
     for(let i = 1; i <= this.state.lineNums; ++i){
@@ -223,8 +228,6 @@ export default class HashtagDecorator extends React.Component {
           <div className="side-numbers">
             {lineNumsOutput}
           </div>
-          <button type="button" onClick={this.setSelection}>Set Selection</button>
-          <button type="button" onClick={this.handleTab}>Tab</button>
           <Draft.Editor
             editorState={this.state.editorState}
             onChange={this.editorStateChanged}
