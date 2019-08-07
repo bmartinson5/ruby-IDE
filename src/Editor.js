@@ -95,6 +95,7 @@ export default class HashtagDecorator extends React.Component {
       lineNums: 4,
       text: "",
       lastWasReturn: false,
+      lastWasD: true,
     };
   }
 
@@ -112,28 +113,66 @@ export default class HashtagDecorator extends React.Component {
     const plainText = contentState.getPlainText();
   }
 
-  setSelection = (offset, focusOffset) => {
-    offset = 4
-    focusOffset = 4
+  getNewSelection = (offset, focusOffset) => {
+    const {editorState} = this.state;
+    const selectionState = editorState.getSelection();
+    return selectionState.merge({
+        anchorOffset: offset,
+        focusOffset: focusOffset,
+    })
+  }
+
+  setSelection = (offset: number, focusOffset: number) => {
     const {editorState} = this.state;
     const selectionState = editorState.getSelection();
 
-    // we cant set the selection state directly because its immutable.
-    // so make a copy
     const newSelection = selectionState.merge({
         anchorOffset: offset,
         focusOffset: focusOffset,
     })
 
-    // Draft API helper set the selection into a new editorState
     const newEditorState = Draft.EditorState.forceSelection(editorState, newSelection);
-
-    // update the editorState
     this.editorStateChanged(newEditorState);
   }
 
+  reverseTab = (lengthOfSelect) => {
+    let currentState = this.state.editorState;
+    let currentSelection = currentState.getSelection();
+    const oldFocus = currentSelection.getStartOffset();
+    const oldOffset = oldFocus-lengthOfSelect;
+
+    const newOffset = (oldOffset-4 < 0) ? 0 : oldOffset-4;
+    const newFocus = newOffset+lengthOfSelect;
+    const oldSelection = this.getNewSelection(oldOffset, oldFocus)
+    const newSelection = this.getNewSelection(newOffset, newFocus)
+
+    let newContentState = Draft.Modifier.moveText(
+      currentState.getCurrentContent(),
+      oldSelection,
+      newSelection
+    );
+
+    this.setState({
+      editorState: Draft.EditorState.push(currentState, newContentState, 'move-text')
+    });
+  }
+
+  checkForEndKey = () => {
+      const lineNum = this.getCurrentLine();
+      const lineText = this.getLineText(lineNum);
+      // console.log(lineText)
+      console.log(lineText);
+      return (lineText.replace(/\s/g, "") === "end")
+  }
+
   keyBindingFn(e: SyntheticKeyboardEvent): string {
-    if (e.keyCode === 13) {
+
+    if (e.keyCode === 68) {  // key: D
+      this.setState({lastWasD: true})
+      //check if end is only word on line
+    }
+
+    if (e.keyCode === 13) { // key: return
       this.setState({lastWasReturn: true})
     }
     return Draft.getDefaultKeyBinding(e);
@@ -143,9 +182,12 @@ export default class HashtagDecorator extends React.Component {
     this.setState({
       editorState: newEditorState,
     }, () => {
+      this.checkForKeys()
       this.setLineNums()
       this.contentState()
     });
+
+
   }
 
   splitCurrentBlock = () => {
@@ -160,7 +202,8 @@ export default class HashtagDecorator extends React.Component {
   }
 
   handleReturn = (offNum, newScopeStarted) => {
-    let spaces = " ".padStart(offNum, " ");
+
+    let spaces = "".padStart(offNum, " ");
     let currentState = this.state.editorState;
     let newContentState = Draft.Modifier.replaceText(
       currentState.getCurrentContent(),
@@ -204,27 +247,41 @@ export default class HashtagDecorator extends React.Component {
   }
 
   prevLineStartedScope = (prevLine) => {
-    const result = prevLine.match(/\b(def|if)\b/g) !== null;
-    console.log('result', result);
-    return result;
+    return prevLine.match(/\b(def|if)\b/g) !== null;
+  }
+
+  getLineText = (lineNum) => {
+      return this.state.editorState.getCurrentContent().getBlocksAsArray()[lineNum].text;
+  }
+
+  checkForDKey = () => {
+    if(this.state.lastWasD){
+      this.setState({lastWasD: false})
+      if(this.checkForEndKey()){
+        this.reverseTab(3)
+      }
+    }
   }
 
   checkForReturn = () => {
     if(this.state.lastWasReturn){
       const lineNum = this.getCurrentLine();
       const prevLineNum = (lineNum === 0 ? 0 : lineNum-1);
-      const prevLine = this.state.editorState.getCurrentContent().getBlocksAsArray()[prevLineNum].text;
+      const prevLine = this.getLineText(prevLineNum);
       const offset = prevLine.search(/\S/);
       console.log(offset);
       this.setState({lastWasReturn: false})
       this.handleReturn(offset, this.prevLineStartedScope(prevLine))
     }
+
   }
 
-
+  checkForKeys = () => {
+    this.checkForReturn()
+    this.checkForDKey()
+  }
 
   render() {
-    this.checkForReturn()
 
     const lineNumsOutput = [];
     for(let i = 1; i <= this.state.lineNums; ++i){
