@@ -5,10 +5,10 @@ import './CodeContent.css';
 
 const {hasCommandModifier} = Draft.KeyBindingUtil;
 
-const HASHTAG_REGEX = /\b(def|end)\b/g;
+const HASHTAG_REGEX = /\b(def|end|if|elsif|else|while|for)\b/g;
 
 const HashtagSpan = (props) => {
-  return <span style={{color:'green'}}>{props.children}</span>;
+  return <span style={{color:'#00D18E'}}>{props.children}</span>;
 };
 
 function hashtagStrategy(contentBlock, callback, contentState) {
@@ -141,7 +141,7 @@ export default class HashtagDecorator extends React.Component {
     const oldFocus = currentSelection.getStartOffset();
     const oldOffset = oldFocus-lengthOfSelect;
 
-    const newOffset = (oldOffset-4 < 0) ? 0 : oldOffset-4;
+    const newOffset = (oldOffset-(lengthOfSelect+1) < 0) ? 0 : oldOffset-(lengthOfSelect+1);
     const newFocus = newOffset+lengthOfSelect;
     const oldSelection = this.getNewSelection(oldOffset, oldFocus)
     const newSelection = this.getNewSelection(newOffset, newFocus)
@@ -161,13 +161,21 @@ export default class HashtagDecorator extends React.Component {
       const lineNum = this.getCurrentLine();
       const lineText = this.getLineText(lineNum);
       // console.log(lineText)
-      console.log(lineText);
-      return (lineText.replace(/\s/g, "") === "end")
+      console.log('linetext', lineText);
+      const possibleKeyword = lineText.replace(/\s/g, "")
+      if(possibleKeyword === "end")
+        return 3
+      else if(possibleKeyword === "elsif")
+        return 5
+      else if(possibleKeyword === "else")
+        return 4
+      else
+        return 0
   }
 
   keyBindingFn(e: SyntheticKeyboardEvent): string {
-
-    if (e.keyCode === 68) {  // key: D
+    console.log('key', e.keyCode);
+    if (e.keyCode === 68 || e.keyCode === 70 || e.keyCode === 69) {  // key: D
       this.setState({lastWasD: true})
       //check if end is only word on line
     }
@@ -257,8 +265,9 @@ export default class HashtagDecorator extends React.Component {
   checkForDKey = () => {
     if(this.state.lastWasD){
       this.setState({lastWasD: false})
-      if(this.checkForEndKey()){
-        this.reverseTab(3)
+      const result = this.checkForEndKey()
+      if(this.checkForEndKey() !== 0){
+        this.reverseTab(result)
       }
     }
   }

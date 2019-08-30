@@ -1,4 +1,10 @@
+body {
+  background-color: #225E63;
+}
+
 div[contenteditable="true"]{
+  background-color: white;
+
   position: absolute;
 	width: 800px;
 	height: 700px;
@@ -21,7 +27,7 @@ div[contenteditable="true"]{
   width: 10px;
   margin-top: 53.5px;
   left: 80px;
-  color: green;
+  color: #AF5D63;
   z-index: 10;
 }
 
