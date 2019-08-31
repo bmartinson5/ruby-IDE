@@ -4,7 +4,7 @@ body {
 
 div[contenteditable="true"]{
   background-color: white;
-
+  font-size: 18px;
   position: absolute;
 	width: 800px;
 	height: 700px;
@@ -16,6 +16,10 @@ div[contenteditable="true"]{
 	padding: 40px;
   padding-left: 60px;
 	font-family: Tahoma, sans-serif;
+}
+
+.line-number {
+  font-size: 18px;
 }
 .code-container {
   position: relative;

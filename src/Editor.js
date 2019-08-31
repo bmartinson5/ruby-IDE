@@ -32,6 +32,7 @@ const compositeDecorator = new Draft.CompositeDecorator([
     component: HashtagSpan,
   }
 ]);
+
 const createWithHTML = (html) => {
   const contentBlocks = Draft.convertFromHTML(html);
   const contentState = Draft.ContentState.createFromBlockArray(contentBlocks);
@@ -85,7 +86,7 @@ const firstEditor = createWithRawContent({
 });
 
 
-export default class HashtagDecorator extends React.Component {
+export default class Editor extends React.Component {
   constructor(props){
     super(props);
     this.keyBindingFn = this.keyBindingFn.bind(this);
@@ -111,6 +112,7 @@ export default class HashtagDecorator extends React.Component {
     const rawJson = Draft.convertToRaw(contentState);
     const jsonStr = JSON.stringify(rawJson, null, 1);
     const plainText = contentState.getPlainText();
+
   }
 
   getNewSelection = (offset, focusOffset) => {
@@ -141,7 +143,7 @@ export default class HashtagDecorator extends React.Component {
     const oldFocus = currentSelection.getStartOffset();
     const oldOffset = oldFocus-lengthOfSelect;
 
-    const newOffset = (oldOffset-(lengthOfSelect+1) < 0) ? 0 : oldOffset-(lengthOfSelect+1);
+    const newOffset = (oldOffset-(4) < 0) ? 0 : oldOffset-(4);
     const newFocus = newOffset+lengthOfSelect;
     const oldSelection = this.getNewSelection(oldOffset, oldFocus)
     const newSelection = this.getNewSelection(newOffset, newFocus)
@@ -160,8 +162,7 @@ export default class HashtagDecorator extends React.Component {
   checkForEndKey = () => {
       const lineNum = this.getCurrentLine();
       const lineText = this.getLineText(lineNum);
-      // console.log(lineText)
-      console.log('linetext', lineText);
+      console.log(lineText.split(" ").pop());
       const possibleKeyword = lineText.replace(/\s/g, "")
       if(possibleKeyword === "end")
         return 3
@@ -173,8 +174,13 @@ export default class HashtagDecorator extends React.Component {
         return 0
   }
 
+  getCurrentWord = () => {
+      if(this.getLineText())
+        return this.getLineText().split(" ").pop
+      return null
+  }
+
   keyBindingFn(e: SyntheticKeyboardEvent): string {
-    console.log('key', e.keyCode);
     if (e.keyCode === 68 || e.keyCode === 70 || e.keyCode === 69) {  // key: D
       this.setState({lastWasD: true})
       //check if end is only word on line
@@ -210,8 +216,13 @@ export default class HashtagDecorator extends React.Component {
   }
 
   handleReturn = (offNum, newScopeStarted) => {
+    const lineNum = this.getCurrentLine();
+    const prevLineNum = (lineNum === 0 ? 0 : lineNum-1);
+    const prevLine = this.getLineText(prevLineNum);
+    const offset = prevLine.search(/\S/);
+    this.setState({lastWasReturn: false})
 
-    let spaces = "".padStart(offNum, " ");
+    let spaces = "".padStart(offset, " ");
     let currentState = this.state.editorState;
     let newContentState = Draft.Modifier.replaceText(
       currentState.getCurrentContent(),
@@ -219,7 +230,7 @@ export default class HashtagDecorator extends React.Component {
       spaces
     );
 
-    if(newScopeStarted){
+    if(this.prevLineStartedScope(prevLine)){
       newContentState = Draft.Modifier.replaceText(
         newContentState,
         newContentState.getSelectionAfter(),
@@ -255,39 +266,32 @@ export default class HashtagDecorator extends React.Component {
   }
 
   prevLineStartedScope = (prevLine) => {
-    return prevLine.match(/\b(def|if)\b/g) !== null;
+    return prevLine.match(/\b(def|if|while|for)\b/g) !== null;
   }
 
   getLineText = (lineNum) => {
-      return this.state.editorState.getCurrentContent().getBlocksAsArray()[lineNum].text;
+      let content = this.state.editorState.getCurrentContent().getBlocksAsArray()[lineNum]
+      if(content){
+        return content.text;
+      }
+      return null
   }
 
-  checkForDKey = () => {
-    if(this.state.lastWasD){
+  checkForKeys = () => {
+    if(this.state.lastWasReturn){
+      this.handleReturn()
+    }
+    else if (this.state.lastWasD){
       this.setState({lastWasD: false})
       const result = this.checkForEndKey()
+      //if found keyword 'end' or 'else, elsif' needs reverse Tab
       if(this.checkForEndKey() !== 0){
         this.reverseTab(result)
       }
     }
-  }
-
-  checkForReturn = () => {
-    if(this.state.lastWasReturn){
-      const lineNum = this.getCurrentLine();
-      const prevLineNum = (lineNum === 0 ? 0 : lineNum-1);
-      const prevLine = this.getLineText(prevLineNum);
-      const offset = prevLine.search(/\S/);
-      console.log(offset);
-      this.setState({lastWasReturn: false})
-      this.handleReturn(offset, this.prevLineStartedScope(prevLine))
-    }
-
-  }
-
-  checkForKeys = () => {
-    this.checkForReturn()
-    this.checkForDKey()
+    // else if (){
+    //
+    // }
   }
 
   render() {
