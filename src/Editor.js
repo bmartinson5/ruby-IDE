@@ -25,7 +25,7 @@ function keywordStrategy(contentBlock, callback, contentState) {
 }
 
 function objectStrategy(contentBlock, callback, contentState) {
-  findWithRegex(OBJECT_REGEX, contentBlock, callback, "subtrack");
+  findWithRegex(OBJECT_REGEX, contentBlock, callback, "subtract");
 }
 
 function methodStrategy(contentBlock, callback, contentState) {
@@ -38,8 +38,8 @@ function findWithRegex(regex, contentBlock, callback, message = "") {
   while ((matchArr = regex.exec(text)) !== null) {
     console.log("match", matchArr);
     start = matchArr.index;
-    if (message === "add") callback(start + 1, start + 1 + matchArr[0].length);
-    else if (message === "subtrack")
+    if (message === "add") callback(start + 1, start + 1 + matchArr[0].length-1);
+    else if (message === "subtract")
       callback(start, start + matchArr[0].length - 1);
     else callback(start, start + matchArr[0].length);
   }
@@ -61,12 +61,12 @@ const compositeDecorator = new Draft.CompositeDecorator([
     component: KeywordSpan
   },
   {
-    strategy: objectStrategy,
-    component: ObjectSpan
-  },
-  {
     strategy: methodStrategy,
     component: MethodSpan
+  },
+  {
+    strategy: objectStrategy,
+    component: ObjectSpan
   }
 ]);
 
