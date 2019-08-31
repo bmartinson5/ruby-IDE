@@ -5,8 +5,9 @@ import "./CodeContent.css";
 const { hasCommandModifier } = Draft.KeyBindingUtil;
 
 const KEYWORD_REGEX = /\b(def|end|if|elsif|else|while|for)\b/g;
-const OBJECT_REGEX = /\b[a-z]+\./g;
-const METHOD_REGEX = /\.[a-z]+\b/g;
+const OBJECT_REGEX = /\b([a-z]|[A-Z])+\./g;
+const METHOD_REGEX = /\.([a-z]|[A-Z])+\b/g;
+const FUNCTION_REGEX = /(\b|\.)([a-z]|[A-Z])+\(/g;
 
 const KeywordSpan = props => {
   return <span style={{ color: "#00D18E" }}>{props.children}</span>;
@@ -20,6 +21,11 @@ const MethodSpan = props => {
   return <span style={{ color: "blue" }}>{props.children}</span>;
 };
 
+const FunctionSpan = props => {
+  return <span style={{ color: "cyan" }}>{props.children}</span>;
+};
+
+
 function keywordStrategy(contentBlock, callback, contentState) {
   findWithRegex(KEYWORD_REGEX, contentBlock, callback);
 }
@@ -32,15 +38,32 @@ function methodStrategy(contentBlock, callback, contentState) {
   findWithRegex(METHOD_REGEX, contentBlock, callback, "add");
 }
 
+function functionStrategy(contentBlock, callback, contentState) {
+  findWithRegex(FUNCTION_REGEX, contentBlock, callback, "function");
+}
+
+
 function findWithRegex(regex, contentBlock, callback, message = "") {
   const text = contentBlock.getText();
   let matchArr, start;
   while ((matchArr = regex.exec(text)) !== null) {
     console.log("match", matchArr);
     start = matchArr.index;
-    if (message === "add") callback(start + 1, start + 1 + matchArr[0].length-1);
-    else if (message === "subtract")
+    if (message === "add"){
+      callback(start + 1, start + 1 + matchArr[0].length-1);
+    }
+    else if (message === "subtract"){
       callback(start, start + matchArr[0].length - 1);
+    }
+    else if (message === "function"){
+      if(matchArr[0] && matchArr[0][0] && matchArr[0][0] === '.'){
+        ++start;
+        callback(start, start + matchArr[0].length - 2);
+      }
+      else{
+        callback(start, start + matchArr[0].length - 1);
+      }
+    }
     else callback(start, start + matchArr[0].length);
   }
 }
@@ -61,6 +84,10 @@ const compositeDecorator = new Draft.CompositeDecorator([
     component: KeywordSpan
   },
   {
+    strategy: functionStrategy,
+    component: FunctionSpan
+  },
+  {
     strategy: methodStrategy,
     component: MethodSpan
   },
@@ -68,6 +95,7 @@ const compositeDecorator = new Draft.CompositeDecorator([
     strategy: objectStrategy,
     component: ObjectSpan
   }
+
 ]);
 
 const createWithHTML = html => {
@@ -103,7 +131,7 @@ const firstEditor = createWithRawContent({
     },
     {
       key: "5h45r",
-      text: "    Your code here...",
+      text: "    ",
       type: "unstyled",
       depth: 0,
       entityRanges: [],
