@@ -196,7 +196,7 @@ export default class Editor extends React.Component {
       text: "",
       lastWasReturn: false,
       lastWasD: true,
-      variableNames: ""
+      possibleSuggestions: variableNames
     };
   }
 
@@ -303,10 +303,10 @@ export default class Editor extends React.Component {
         editorState: newEditorState
       },
       () => {
-        console.log(this.getCurrentWord());
         this.checkForKeys();
         this.setLineNums();
         this.contentState();
+        this.checkPossibleSuggestions();
       }
     );
   };
@@ -359,13 +359,27 @@ export default class Editor extends React.Component {
   };
 
   handleTab = e => {
+    const { possibleSuggestions } = this.state;
     if (e) e.preventDefault();
     let currentState = this.state.editorState;
-    let newContentState = Draft.Modifier.replaceText(
-      currentState.getCurrentContent(),
-      currentState.getSelection(),
-      "    "
-    );
+    let newContentState;
+    if (possibleSuggestions) {
+      //need to print first in arr
+      const currentWord = this.getCurrentWord();
+      const sugg = possibleSuggestions[0];
+      const restOfWord = sugg.substring(currentWord.length, sugg.length);
+      newContentState = Draft.Modifier.replaceText(
+        currentState.getCurrentContent(),
+        currentState.getSelection(),
+        restOfWord
+      );
+    } else {
+      newContentState = Draft.Modifier.replaceText(
+        currentState.getCurrentContent(),
+        currentState.getSelection(),
+        "    "
+      );
+    }
     this.setState({
       editorState: Draft.EditorState.push(
         currentState,
@@ -412,8 +426,25 @@ export default class Editor extends React.Component {
     }
   };
 
+  checkPossibleSuggestions = () => {
+    const currentWord = this.getCurrentWord();
+    if (currentWord === "") return;
+    const suggestions = [];
+    variableNames.forEach(function(variable) {
+      if (variable.includes(currentWord)) {
+        suggestions.push(variable);
+      }
+    });
+
+    console.log("suggestions", suggestions);
+    this.setState({
+      possibleSuggestions: suggestions
+    });
+  };
+
   render() {
     const lineNumsOutput = [];
+    const { possibleSuggestions } = this.state;
     for (let i = 1; i <= this.state.lineNums; ++i) {
       lineNumsOutput.push(
         <div className="line-number" key={i.toString()}>
@@ -426,6 +457,15 @@ export default class Editor extends React.Component {
       <div>
         <div className="editor">
           <div className="side-numbers">{lineNumsOutput}</div>
+          {possibleSuggestions && (
+            <div className="variable-suggestions">
+              {possibleSuggestions.map((variable, index) => (
+                <p>
+                  {index}. {variable}
+                </p>
+              ))}
+            </div>
+          )}
           <Draft.Editor
             editorState={this.state.editorState}
             onChange={this.editorStateChanged}

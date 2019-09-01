@@ -38,3 +38,11 @@ div[contenteditable="true"] {
 div[contenteditable="true"] {
   line-height: 28px;
 }
+
+.variable-suggestions {
+  position: fixed;
+  right: 10%;
+  height: 100px;
+  width: 100px;
+  background-color: white;
+}
