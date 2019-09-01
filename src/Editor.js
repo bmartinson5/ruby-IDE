@@ -3,6 +3,7 @@ import * as Draft from "draft-js";
 import "./CodeContent.css";
 
 const { hasCommandModifier } = Draft.KeyBindingUtil;
+const variableNames = [];
 
 const KEYWORD_REGEX = /\b(def|end|if|do|elsif|else|while|for|return|puts|print|p)\b/g;
 const OBJECT_REGEX = /\b([a-z]|[A-Z])+\./g;
@@ -10,6 +11,7 @@ const METHOD_REGEX = /\.([a-z]|[A-Z])+\b/g;
 const FUNCTION_REGEX = /(\b|\.)([a-z]|[A-Z])+\(/g;
 const STRING_REGEX = /"([a-z]|[A-Z])+"/g;
 const WALL_REGEX = /\|([a-z]|[A-Z])+\|/g;
+const VARIABLE_REGEX = /\b(\_|[a-z]|[0-9]|[A-Z])+( |)\= /g;
 
 const KeywordSpan = props => {
   return <span style={{ color: "purple" }}>{props.children}</span>;
@@ -33,6 +35,13 @@ const StringSpan = props => {
 
 const WallSpan = props => {
   return <span style={{ color: "green" }}>{props.children}</span>;
+};
+
+const VariableSpan = props => {
+  // console.log(props.decoratedText.split(" ")[0]);
+  const variable = props.decoratedText.split(" ")[0];
+  if (!variableNames.includes(variable)) variableNames.push(variable);
+  return <span style={{ color: "black" }}>{props.children}</span>;
 };
 
 function keywordStrategy(contentBlock, callback, contentState) {
@@ -59,6 +68,10 @@ function wallStrategy(contentBlock, callback, contentState) {
   findWithRegex(WALL_REGEX, contentBlock, callback, "");
 }
 
+function variableStrategy(contentBlock, callback, contentState) {
+  findWithRegex(VARIABLE_REGEX, contentBlock, callback, "");
+}
+
 function findWithRegex(regex, contentBlock, callback, message = "") {
   const text = contentBlock.getText();
   let matchArr, start;
@@ -83,16 +96,6 @@ function findWithRegex(regex, contentBlock, callback, message = "") {
   }
 }
 
-// function findWithRegexForObject(regex, contentBlock, callback) {
-//   const text = contentBlock.getText();
-//   let matchArr, start;
-//   while ((matchArr = regex.exec(text)) !== null) {
-//     start = matchArr.index;
-//     callback(start, start + matchArr[0].length);
-//     callback(start + 3, start + 3 + (matchArr[0].length - 3));
-//   }
-// }
-//
 const compositeDecorator = new Draft.CompositeDecorator([
   {
     strategy: keywordStrategy,
@@ -117,6 +120,10 @@ const compositeDecorator = new Draft.CompositeDecorator([
   {
     strategy: wallStrategy,
     component: WallSpan
+  },
+  {
+    strategy: variableStrategy,
+    component: VariableSpan
   }
 ]);
 
@@ -188,7 +195,8 @@ export default class Editor extends React.Component {
       lineNums: 4,
       text: "",
       lastWasReturn: false,
-      lastWasD: true
+      lastWasD: true,
+      variableNames: ""
     };
   }
 
@@ -269,8 +277,10 @@ export default class Editor extends React.Component {
   };
 
   getCurrentWord = () => {
-    if (this.getLineText()) return this.getLineText().split(" ").pop;
-    return null;
+    let result;
+    if ((result = this.getLineText(this.getCurrentLine())))
+      result = result.split(" ").pop();
+    return result;
   };
 
   keyBindingFn(e: SyntheticKeyboardEvent): string {
@@ -293,6 +303,7 @@ export default class Editor extends React.Component {
         editorState: newEditorState
       },
       () => {
+        console.log(this.getCurrentWord());
         this.checkForKeys();
         this.setLineNums();
         this.contentState();
@@ -399,9 +410,6 @@ export default class Editor extends React.Component {
         this.reverseTab(result);
       }
     }
-    // else if (){
-    //
-    // }
   };
 
   render() {
