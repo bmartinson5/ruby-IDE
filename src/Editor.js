@@ -363,7 +363,7 @@ export default class Editor extends React.Component {
     if (e) e.preventDefault();
     let currentState = this.state.editorState;
     let newContentState;
-    if (possibleSuggestions) {
+    if (possibleSuggestions.length) {
       //need to print first in arr
       const currentWord = this.getCurrentWord();
       const sugg = possibleSuggestions[0];
@@ -457,15 +457,6 @@ export default class Editor extends React.Component {
       <div>
         <div className="editor">
           <div className="side-numbers">{lineNumsOutput}</div>
-          {possibleSuggestions && (
-            <div className="variable-suggestions">
-              {possibleSuggestions.map((variable, index) => (
-                <p>
-                  {index}. {variable}
-                </p>
-              ))}
-            </div>
-          )}
           <Draft.Editor
             editorState={this.state.editorState}
             onChange={this.editorStateChanged}
