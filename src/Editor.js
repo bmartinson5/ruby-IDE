@@ -38,7 +38,6 @@ const WallSpan = props => {
 };
 
 const VariableSpan = props => {
-  // console.log(props.decoratedText.split(" ")[0]);
   const variable = props.decoratedText.split(" ")[0];
   if (!variableNames.includes(variable)) variableNames.push(variable);
   return <span style={{ color: "black" }}>{props.children}</span>;
@@ -89,7 +88,6 @@ function findWithRegex(regex, contentBlock, callback, message = "") {
         callback(start, start + matchArr[0].length - 1);
       }
     } else {
-      console.log("here", matchArr[0].length);
       callback(start, start + matchArr[0].length);
     }
   }
@@ -324,6 +322,8 @@ export default class Editor extends React.Component {
     });
   };
 
+
+
   handleReturn = (offNum, newScopeStarted) => {
     const lineNum = this.getCurrentLine();
     const prevLineNum = lineNum === 0 ? 0 : lineNum - 1;
@@ -331,7 +331,9 @@ export default class Editor extends React.Component {
     const offset = prevLine.search(/\S/);
     this.setState({ lastWasReturn: false });
 
-    let spaces = "".padStart(offset, " ");
+    // let spaces = "".padStart(offset, " ");
+    let spaces = this.findScopeIndentationOfLine(lineNum);
+    console.log('spaces length', spaces.length);
     let currentState = this.state.editorState;
     let newContentState = Draft.Modifier.replaceText(
       currentState.getCurrentContent(),
@@ -339,13 +341,13 @@ export default class Editor extends React.Component {
       spaces
     );
 
-    if (this.prevLineStartedScope(prevLine)) {
-      newContentState = Draft.Modifier.replaceText(
-        newContentState,
-        newContentState.getSelectionAfter(),
-        "    "
-      );
-    }
+    // if (this.lineStartedScope(prevLine)) {
+    //   newContentState = Draft.Modifier.replaceText(
+    //     newContentState,
+    //     newContentState.getSelectionAfter(),
+    //     "    "
+    //   );
+    // }
 
     this.setState({
       editorState: Draft.EditorState.push(
@@ -397,8 +399,28 @@ export default class Editor extends React.Component {
     return currentBlockIndex;
   };
 
-  prevLineStartedScope = prevLine => {
+  findScopeIndentationOfLine = lineNum => {
+    let spaces = ""
+    for(let i = 0; i < lineNum; ++i){
+      const lineText = this.getLineText(i)
+      if(this.lineStartedScope(lineText)){
+        spaces += "    "
+      }
+      if(this.lineEndedScope(lineText)){
+        if(spaces.length > 0)
+          spaces = spaces.substring(0, spaces.length-4)
+      }
+    }
+    return spaces
+  }
+
+  lineStartedScope = prevLine => {
     return prevLine.match(/\b(def|if|while|for)\b/g) !== null;
+  };
+
+  lineEndedScope = prevLine => {
+    console.log(prevLine);
+    return prevLine.match(/\b(end)\b/g) !== null;
   };
 
   getLineText = lineNum => {
@@ -434,7 +456,6 @@ export default class Editor extends React.Component {
       }
     });
 
-    console.log("suggestions", suggestions);
     this.setState({
       possibleSuggestions: suggestions
     });
