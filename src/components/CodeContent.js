@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ContentEditable from 'react-contenteditable';
-import './CodeContent.css';
+import '../css/CodeContent.css';
 
 
 class CodeContent extends Component {
