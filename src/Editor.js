@@ -4,7 +4,7 @@ import "./CodeContent.css";
 
 const { hasCommandModifier } = Draft.KeyBindingUtil;
 
-const KEYWORD_REGEX = /\b(def|end|if|elsif|else|while|for)\b/g;
+const KEYWORD_REGEX = /\b(def|end|do|if|elsif|else|while|for)\b/g;
 const OBJECT_REGEX = /\b([a-z]|[A-Z])+\./g;
 const METHOD_REGEX = /\.([a-z]|[A-Z])+\b/g;
 const FUNCTION_REGEX = /(\b|\.)([a-z]|[A-Z])+\(/g;
@@ -22,7 +22,7 @@ const MethodSpan = props => {
 };
 
 const FunctionSpan = props => {
-  return <span style={{ color: "cyan" }}>{props.children}</span>;
+  return <span style={{ color: "#00A1FF" }}>{props.children}</span>;
 };
 
 
@@ -47,7 +47,6 @@ function findWithRegex(regex, contentBlock, callback, message = "") {
   const text = contentBlock.getText();
   let matchArr, start;
   while ((matchArr = regex.exec(text)) !== null) {
-    console.log("match", matchArr);
     start = matchArr.index;
     if (message === "add"){
       callback(start + 1, start + 1 + matchArr[0].length-1);
@@ -238,7 +237,6 @@ export default class Editor extends React.Component {
   checkForEndKey = () => {
     const lineNum = this.getCurrentLine();
     const lineText = this.getLineText(lineNum);
-    console.log(lineText.split(" ").pop());
     const possibleKeyword = lineText.replace(/\s/g, "");
     if (possibleKeyword === "end") return 3;
     else if (possibleKeyword === "elsif") return 5;

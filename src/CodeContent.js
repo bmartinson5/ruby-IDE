@@ -20,7 +20,6 @@ class CodeContent extends Component {
   };
 
   handleKeyDown = evt => {
-    console.log(evt.target)
     if(evt.key === 'Tab'){
       evt.preventDefault();
       // currentSpot = this.findCurrentSpot(this.state.html)
