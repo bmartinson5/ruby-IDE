@@ -274,8 +274,6 @@ export default class Editor extends React.Component {
     const indentLength = spaces.length - 4 < 0 ? 0: spaces.length - 4;
     const lineText = this.getLineText(currentLine)
     const offset = lineText.search(/\S/);
-    console.log('spaces', spaces.length);
-    console.log('offset', offset);
     this.reverseTab(result, offset-indentLength);
   }
 

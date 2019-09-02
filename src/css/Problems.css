@@ -1,0 +1,22 @@
+.problems-list {
+  background-color: black;
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  width: 200px;
+  height: 700px;
+  margin-top: 10px;
+  left: 900px;
+  resize: none;
+  outline: none;
+  border: 3px solid #cccccc;
+  padding: 0px;
+  padding-left: 0px;
+  font-family: Tahoma, sans-serif;
+}
+
+.problem-list-item {
+  border-bottom: 3px solid #cccccc;
+  padding: 10px;
+  position: relative;
+}
