@@ -236,13 +236,13 @@ export default class Editor extends React.Component {
     this.editorStateChanged(newEditorState);
   };
 
-  reverseTab = lengthOfSelect => {
+  reverseTab = (lengthOfSelect, lengthOfReverse) => {
     let currentState = this.state.editorState;
     let currentSelection = currentState.getSelection();
     const oldFocus = currentSelection.getStartOffset();
     const oldOffset = oldFocus - lengthOfSelect;
 
-    const newOffset = oldOffset - 4 < 0 ? 0 : oldOffset - 4;
+    const newOffset = oldOffset - lengthOfReverse < 0 ? 0 : oldOffset - lengthOfReverse;
     const newFocus = newOffset + lengthOfSelect;
     const oldSelection = this.getNewSelection(oldOffset, oldFocus);
     const newSelection = this.getNewSelection(newOffset, newFocus);
@@ -326,28 +326,15 @@ export default class Editor extends React.Component {
 
   handleReturn = (offNum, newScopeStarted) => {
     const lineNum = this.getCurrentLine();
-    const prevLineNum = lineNum === 0 ? 0 : lineNum - 1;
-    const prevLine = this.getLineText(prevLineNum);
-    const offset = prevLine.search(/\S/);
     this.setState({ lastWasReturn: false });
 
-    // let spaces = "".padStart(offset, " ");
     let spaces = this.findScopeIndentationOfLine(lineNum);
-    console.log('spaces length', spaces.length);
     let currentState = this.state.editorState;
     let newContentState = Draft.Modifier.replaceText(
       currentState.getCurrentContent(),
       currentState.getSelection(),
       spaces
     );
-
-    // if (this.lineStartedScope(prevLine)) {
-    //   newContentState = Draft.Modifier.replaceText(
-    //     newContentState,
-    //     newContentState.getSelectionAfter(),
-    //     "    "
-    //   );
-    // }
 
     this.setState({
       editorState: Draft.EditorState.push(
@@ -419,7 +406,6 @@ export default class Editor extends React.Component {
   };
 
   lineEndedScope = prevLine => {
-    console.log(prevLine);
     return prevLine.match(/\b(end)\b/g) !== null;
   };
 
@@ -440,11 +426,21 @@ export default class Editor extends React.Component {
       this.setState({ lastWasD: false });
       const result = this.checkForEndKey();
       //if found keyword 'end' or 'else, elsif' needs reverse Tab
-      if (this.checkForEndKey() !== 0) {
-        this.reverseTab(result);
+      if (result !== 0) {
+        this.unIndentLine(this.getCurrentLine(), result)
       }
     }
   };
+
+  unIndentLine = (currentLine, result) => {
+    let spaces = this.findScopeIndentationOfLine(currentLine);
+    const indentLength = spaces.length - 4 < 0 ? 0: spaces.length - 4;
+    const lineText = this.getLineText(currentLine)
+    const offset = lineText.search(/\S/);
+    console.log('spaces', spaces.length);
+    console.log('offset', offset);
+    this.reverseTab(result, offset-indentLength);
+  }
 
   checkPossibleSuggestions = () => {
     const currentWord = this.getCurrentWord();
