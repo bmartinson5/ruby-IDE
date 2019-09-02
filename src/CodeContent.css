@@ -1,40 +1,48 @@
 body {
-  background-color: #225E63;
+  background-color: #225e63;
 }
 
-div[contenteditable="true"]{
+div[contenteditable="true"] {
   background-color: white;
-  font-size: 18px;
+  font-size: 20px;
   position: absolute;
-	width: 800px;
-	height: 700px;
+  width: 800px;
+  height: 700px;
   margin-top: 10px;
   margin-left: 50px;
   resize: none;
   outline: none;
-	border: 3px solid #cccccc;
-	padding: 40px;
+  border: 3px solid #cccccc;
+  padding: 40px;
   padding-left: 60px;
-	font-family: Tahoma, sans-serif;
+  font-family: Tahoma, sans-serif;
 }
 
 .line-number {
-  font-size: 18px;
+  font-size: 20px;
 }
 .code-container {
   position: relative;
 }
 
 .side-numbers {
-	font-family: Tahoma, sans-serif;
+  font-family: Tahoma, sans-serif;
   position: absolute;
   width: 10px;
   margin-top: 53.5px;
   left: 80px;
-  color: #AF5D63;
   z-index: 10;
 }
 
-.side-numbers, div[contenteditable="true"] {
+.side-numbers,
+div[contenteditable="true"] {
   line-height: 28px;
+}
+
+.variable-suggestions {
+  position: fixed;
+  right: 10%;
+  height: 100px;
+  width: 100px;
+  background-color: white;
 }

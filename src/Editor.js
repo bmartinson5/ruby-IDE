@@ -3,28 +3,46 @@ import * as Draft from "draft-js";
 import "./CodeContent.css";
 
 const { hasCommandModifier } = Draft.KeyBindingUtil;
+const variableNames = [];
 
-const KEYWORD_REGEX = /\b(def|end|do|if|elsif|else|while|for)\b/g;
+const KEYWORD_REGEX = /\b(def|end|if|do|elsif|else|while|for|return|puts|print|p)\b/g;
 const OBJECT_REGEX = /\b([a-z]|[A-Z])+\./g;
 const METHOD_REGEX = /\.([a-z]|[A-Z])+\b/g;
 const FUNCTION_REGEX = /(\b|\.)([a-z]|[A-Z])+\(/g;
+const STRING_REGEX = /"([a-z]|[A-Z])+"/g;
+const WALL_REGEX = /\|([a-z]|[A-Z])+\|/g;
+const VARIABLE_REGEX = /\b(\_|[a-z]|[0-9]|[A-Z])+( |)\= /g;
 
 const KeywordSpan = props => {
-  return <span style={{ color: "#00D18E" }}>{props.children}</span>;
+  return <span style={{ color: "purple" }}>{props.children}</span>;
 };
 
 const ObjectSpan = props => {
-  return <span style={{ color: "red" }}>{props.children}</span>;
+  return <span style={{ color: "black" }}>{props.children}</span>;
 };
 
 const MethodSpan = props => {
-  return <span style={{ color: "blue" }}>{props.children}</span>;
+  return <span style={{ color: "red" }}>{props.children}</span>;
 };
 
 const FunctionSpan = props => {
-  return <span style={{ color: "#00A1FF" }}>{props.children}</span>;
+  return <span style={{ color: "blue" }}>{props.children}</span>;
 };
 
+const StringSpan = props => {
+  return <span style={{ color: "green" }}>{props.children}</span>;
+};
+
+const WallSpan = props => {
+  return <span style={{ color: "green" }}>{props.children}</span>;
+};
+
+const VariableSpan = props => {
+  // console.log(props.decoratedText.split(" ")[0]);
+  const variable = props.decoratedText.split(" ")[0];
+  if (!variableNames.includes(variable)) variableNames.push(variable);
+  return <span style={{ color: "black" }}>{props.children}</span>;
+};
 
 function keywordStrategy(contentBlock, callback, contentState) {
   findWithRegex(KEYWORD_REGEX, contentBlock, callback);
@@ -42,41 +60,41 @@ function functionStrategy(contentBlock, callback, contentState) {
   findWithRegex(FUNCTION_REGEX, contentBlock, callback, "function");
 }
 
+function stringStrategy(contentBlock, callback, contentState) {
+  findWithRegex(STRING_REGEX, contentBlock, callback, "");
+}
+
+function wallStrategy(contentBlock, callback, contentState) {
+  findWithRegex(WALL_REGEX, contentBlock, callback, "");
+}
+
+function variableStrategy(contentBlock, callback, contentState) {
+  findWithRegex(VARIABLE_REGEX, contentBlock, callback, "");
+}
 
 function findWithRegex(regex, contentBlock, callback, message = "") {
   const text = contentBlock.getText();
   let matchArr, start;
   while ((matchArr = regex.exec(text)) !== null) {
     start = matchArr.index;
-    if (message === "add"){
-      callback(start + 1, start + 1 + matchArr[0].length-1);
-    }
-    else if (message === "subtract"){
+    if (message === "add") {
+      callback(start + 1, start + 1 + matchArr[0].length - 1);
+    } else if (message === "subtract") {
       callback(start, start + matchArr[0].length - 1);
-    }
-    else if (message === "function"){
-      if(matchArr[0] && matchArr[0][0] && matchArr[0][0] === '.'){
+    } else if (message === "function") {
+      if (matchArr[0] && matchArr[0][0] && matchArr[0][0] === ".") {
         ++start;
         callback(start, start + matchArr[0].length - 2);
-      }
-      else{
+      } else {
         callback(start, start + matchArr[0].length - 1);
       }
+    } else {
+      console.log("here", matchArr[0].length);
+      callback(start, start + matchArr[0].length);
     }
-    else callback(start, start + matchArr[0].length);
   }
 }
 
-// function findWithRegexForObject(regex, contentBlock, callback) {
-//   const text = contentBlock.getText();
-//   let matchArr, start;
-//   while ((matchArr = regex.exec(text)) !== null) {
-//     start = matchArr.index;
-//     callback(start, start + matchArr[0].length);
-//     callback(start + 3, start + 3 + (matchArr[0].length - 3));
-//   }
-// }
-//
 const compositeDecorator = new Draft.CompositeDecorator([
   {
     strategy: keywordStrategy,
@@ -93,8 +111,19 @@ const compositeDecorator = new Draft.CompositeDecorator([
   {
     strategy: objectStrategy,
     component: ObjectSpan
+  },
+  {
+    strategy: stringStrategy,
+    component: StringSpan
+  },
+  {
+    strategy: wallStrategy,
+    component: WallSpan
+  },
+  {
+    strategy: variableStrategy,
+    component: VariableSpan
   }
-
 ]);
 
 const createWithHTML = html => {
@@ -165,7 +194,8 @@ export default class Editor extends React.Component {
       lineNums: 4,
       text: "",
       lastWasReturn: false,
-      lastWasD: true
+      lastWasD: true,
+      possibleSuggestions: variableNames
     };
   }
 
@@ -245,8 +275,10 @@ export default class Editor extends React.Component {
   };
 
   getCurrentWord = () => {
-    if (this.getLineText()) return this.getLineText().split(" ").pop;
-    return null;
+    let result;
+    if ((result = this.getLineText(this.getCurrentLine())))
+      result = result.split(" ").pop();
+    return result;
   };
 
   keyBindingFn(e: SyntheticKeyboardEvent): string {
@@ -272,6 +304,7 @@ export default class Editor extends React.Component {
         this.checkForKeys();
         this.setLineNums();
         this.contentState();
+        this.checkPossibleSuggestions();
       }
     );
   };
@@ -324,13 +357,27 @@ export default class Editor extends React.Component {
   };
 
   handleTab = e => {
+    const { possibleSuggestions } = this.state;
     if (e) e.preventDefault();
     let currentState = this.state.editorState;
-    let newContentState = Draft.Modifier.replaceText(
-      currentState.getCurrentContent(),
-      currentState.getSelection(),
-      "    "
-    );
+    let newContentState;
+    if (possibleSuggestions.length) {
+      //need to print first in arr
+      const currentWord = this.getCurrentWord();
+      const sugg = possibleSuggestions[0];
+      const restOfWord = sugg.substring(currentWord.length, sugg.length);
+      newContentState = Draft.Modifier.replaceText(
+        currentState.getCurrentContent(),
+        currentState.getSelection(),
+        restOfWord
+      );
+    } else {
+      newContentState = Draft.Modifier.replaceText(
+        currentState.getCurrentContent(),
+        currentState.getSelection(),
+        "    "
+      );
+    }
     this.setState({
       editorState: Draft.EditorState.push(
         currentState,
@@ -375,13 +422,27 @@ export default class Editor extends React.Component {
         this.reverseTab(result);
       }
     }
-    // else if (){
-    //
-    // }
+  };
+
+  checkPossibleSuggestions = () => {
+    const currentWord = this.getCurrentWord();
+    if (currentWord === "") return;
+    const suggestions = [];
+    variableNames.forEach(function(variable) {
+      if (variable.includes(currentWord)) {
+        suggestions.push(variable);
+      }
+    });
+
+    console.log("suggestions", suggestions);
+    this.setState({
+      possibleSuggestions: suggestions
+    });
   };
 
   render() {
     const lineNumsOutput = [];
+    const { possibleSuggestions } = this.state;
     for (let i = 1; i <= this.state.lineNums; ++i) {
       lineNumsOutput.push(
         <div className="line-number" key={i.toString()}>

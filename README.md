@@ -8,34 +8,37 @@ This is React SPA that has a ruby IDE that users can use to create Ruby code. Li
 
 This app is not completed yet and is still being updated.
 Features included so far:
- * Auto-indentation based on scopes
- * Keyword highlighting (different colors depending on type of keyword)
- * Line numbering
- 
+
+- Auto-indentation based on scopes
+- Keyword highlighting (different colors depending on type of keyword)
+- Line numbering
+
 Future feature goals:
-  * Variable name suggestions
-  * Find and replace
-  * Multiple files
-  * Running code on a backend server (with security checks)
-  * Testing code that is run
-  * Underlined errors
-  * Auto-generating classes
+
+- Variable name suggestions
+- Find and replace
+- Multiple files
+- Running code on a backend server (with security checks)
+- Testing code that is run
+- Underlined errors
+- Auto-generating classes
 
 ## Setup/Installation Requirements
 
-1. Clone the repo
-2. Navigate to project folder
-3. Run the following commands:
+1.  Clone the repo
+2.  Navigate to project folder
+3.  Run the following commands:
+
 ```
 npm install
 npm run start
 ```
-4. Go to localhost:8080 in the browser
 
+4.  Go to localhost:8080 in the browser
 
 ## Known Bugs
 
-There are no known bugs at this time.
+variable names get added incorrectly when variable assignment line is altered after already including equals sign
 
 ## Support and contact details
 
@@ -44,7 +47,6 @@ If you find a bug, run into any issues, or have questions, ideas or concerns ple
 ## Technologies Used
 
 Javascript, React, Draft.js, Bootstrap, css, html
-
 
 ### License
 
