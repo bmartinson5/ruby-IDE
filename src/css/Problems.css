@@ -1,9 +1,10 @@
 .problems-list {
-  background-color: #6D6D6D;
+  background-color: #AAAAAA;
   color: white;
   font-size: 20px;
   position: absolute;
   width: 200px;
+  height: 780px;
   margin-top: 10px;
   left: 825px;
   resize: none;
@@ -15,6 +16,7 @@
 }
 
 .problem-list-item {
+  background-color: #6D6D6D;
   border-bottom: 3px solid #cccccc;
   padding: 10px;
   position: relative;
@@ -22,4 +24,9 @@
 
 .selected-item {
   background-color: #ffe068;
+}
+
+.problem-description {
+  font-size: 16px;
+  padding: 10px;
 }

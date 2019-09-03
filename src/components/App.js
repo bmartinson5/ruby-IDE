@@ -22,9 +22,8 @@ class App extends Component {
   render(){
     return (
       <div>
-      <h1>Ruby IDE</h1>
-      <Editor problemIndex={this.state.currentProblem}/>
-      <Problems callback={this.handleProblemChange}/>
+        <Editor problemIndex={this.state.currentProblem}/>
+        <Problems callback={this.handleProblemChange}/>
       </div>
     );
   }

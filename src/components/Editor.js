@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Draft from "draft-js";
+import axios from 'axios'
 import "../css/CodeContent.css";
 import {default_editors} from '../helpers/default_editors.js'
 import {variableNames, compositeDecorator} from '../helpers/strategies.js'
@@ -35,6 +36,18 @@ export default class Editor extends React.Component {
       possibleSuggestions: variableNames,
       problemIndex: this.props.problemIndex
     };
+  }
+
+  componentDidMount = () => {
+
+    axios.get(`http://localhost:3000/problem?problem_index=0`)
+    .then(response => {
+      console.log(response.data[response.data.length-1])
+      // this.setState({
+      //   editorState: response.data[0]
+      // })
+    })
+    .catch(error => console.log(error))
   }
 
   componentDidUpdate(prevProps){
@@ -272,6 +285,7 @@ export default class Editor extends React.Component {
   };
 
   checkForKeys = () => {
+
     if (this.state.lastWasReturn) {
       this.handleReturn();
     } else if (this.state.lastWasD) {
@@ -307,6 +321,19 @@ export default class Editor extends React.Component {
     });
   };
 
+  handleSave = () => {
+    const contentState = this.state.editorState.getCurrentContent();
+    const rawJson = Draft.convertToRaw(contentState);
+    console.log('before send', rawJson);
+    axios.post('http://localhost:3000/contents', ({content: rawJson, problem_index: this.state.problemIndex}))
+         .then(response => {
+             console.log(response.data)
+         })
+         .catch(error => console.log(error))
+
+
+  }
+
   render() {
     const lineNumsOutput = [];
     const { possibleSuggestions } = this.state;
@@ -328,6 +355,7 @@ export default class Editor extends React.Component {
             onTab={this.handleTab}
             keyBindingFn={this.keyBindingFn}
           />
+          <button onClick={this.handleSave}> save</button>
         </div>
       </div>
     );
