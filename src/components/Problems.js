@@ -1,11 +1,8 @@
 import React from "react";
 import Problem from "./Problem.js"
 import "../css/Problems.css";
+import {default_problems} from '../helpers/default_problems'
 
-const default_problems = [
-  "first",
-  "second"
-]
 
 export default class Editor extends React.Component {
   constructor(props) {
@@ -31,7 +28,7 @@ export default class Editor extends React.Component {
           <Problem
             callback={this.handleProblemChange}
             selected={this.state.clickedProblem === index}
-            problem={this.state.problems[index]}
+            problemName={this.state.problems[index]}
             index={index}
           />
         ))}

@@ -1,11 +1,6 @@
 import React from "react";
 import "../css/Problems.css";
 
-const default_problems = [
-  "first",
-  "second"
-]
-
 export default class Editor extends React.Component {
   constructor(props) {
     super(props)
@@ -30,7 +25,7 @@ export default class Editor extends React.Component {
     const selectedStyle = this.state.selected ? "selected-item" : "";
     return (
       <div className={`problem-list-item ${selectedStyle}`} onClick={() => this.handleClick()}>
-        {this.props.problem}
+        {this.props.problemName}
       </div>
     )
   }

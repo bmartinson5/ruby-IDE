@@ -23,11 +23,12 @@ export default class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.keyBindingFn = this.keyBindingFn.bind(this);
-    const firstEditorContent = createWithRawContent(default_editors[this.props.problemIndex])
+    const editor = default_editors[this.props.problemIndex];
+    const firstEditorContent = createWithRawContent(editor)
     this.state = {
       // editorState: Draft.EditorState.createEmpty(compositeDecorator),
       editorState: firstEditorContent,
-      lineNums: 4,
+      lineNums: editor.blocks.length,
       text: "",
       lastWasReturn: false,
       lastWasD: true,
@@ -38,9 +39,11 @@ export default class Editor extends React.Component {
 
   componentDidUpdate(prevProps){
     if(prevProps.problemIndex !== this.props.problemIndex){
-      const nextEditorContent = createWithRawContent(default_editors[this.props.problemIndex])
+      const editor = default_editors[this.props.problemIndex];
+      const nextEditorContent = createWithRawContent(editor)
       this.setState({
         editorState: nextEditorContent,
+        lineNums: editor.blocks.length,
         problemIndex: this.props.problemIndex
       });
     }

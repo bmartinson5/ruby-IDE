@@ -5,10 +5,11 @@ export const variableNames = [];
 const KEYWORD_REGEX = /\b(def|end|if|do|elsif|else|while|for|return|puts|print|p)\b/g;
 const OBJECT_REGEX = /\b([a-z]|[A-Z])+\./g;
 const METHOD_REGEX = /\.([a-z]|[A-Z])+\b/g;
-const FUNCTION_REGEX = /(\b|\.)([a-z]|[A-Z])+\(/g;
+const FUNCTION_REGEX = /(\b|\.)([a-z]|[A-Z]|\_)+\(/g;
 const STRING_REGEX = /"([a-z]|[A-Z])+"/g;
 const WALL_REGEX = /\|([a-z]|[A-Z])+\|/g;
 const VARIABLE_REGEX = /\b(\_|[a-z]|[0-9]|[A-Z])+( |)\= /g;
+const COMMENT_REGEX = /#.*/g;
 
 const KeywordSpan = props => {
   return <span style={{ color: "purple" }}>{props.children}</span>;
@@ -40,6 +41,11 @@ const VariableSpan = props => {
   return <span style={{ color: "black" }}>{props.children}</span>;
 };
 
+const CommentSpan = props => {
+  return <span style={{ color: "teal" }}>{props.children}</span>;
+};
+
+
 function keywordStrategy(contentBlock, callback, contentState) {
   findWithRegex(KEYWORD_REGEX, contentBlock, callback);
 }
@@ -68,6 +74,10 @@ function variableStrategy(contentBlock, callback, contentState) {
   findWithRegex(VARIABLE_REGEX, contentBlock, callback, "");
 }
 
+function commentStrategy(contentBlock, callback, contentState) {
+  findWithRegex(COMMENT_REGEX, contentBlock, callback, "");
+}
+
 function findWithRegex(regex, contentBlock, callback, message = "") {
   const text = contentBlock.getText();
   let matchArr, start;
@@ -91,6 +101,10 @@ function findWithRegex(regex, contentBlock, callback, message = "") {
 }
 
 export const compositeDecorator = new Draft.CompositeDecorator([
+  {
+    strategy: commentStrategy,
+    component: CommentSpan
+  },
   {
     strategy: keywordStrategy,
     component: KeywordSpan
@@ -118,5 +132,5 @@ export const compositeDecorator = new Draft.CompositeDecorator([
   {
     strategy: variableStrategy,
     component: VariableSpan
-  }
+  },
 ]);
