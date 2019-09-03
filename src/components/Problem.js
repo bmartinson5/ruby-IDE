@@ -20,17 +20,17 @@ export default class Editor extends React.Component {
             selected: this.props.selected
         });
     }
-}
+  }
 
   handleClick = () => {
     this.props.callback(this.props.index)
   }
 
   render(){
+    const selectedStyle = this.state.selected ? "selected-item" : "";
     return (
-      <div className="problem-list-item" onClick={() => this.handleClick()}>
+      <div className={`problem-list-item ${selectedStyle}`} onClick={() => this.handleClick()}>
         {this.props.problem}
-        {this.state.selected && <p>selected</p>}
       </div>
     )
   }

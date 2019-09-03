@@ -20,6 +20,7 @@ export default class Editor extends React.Component {
     this.setState({
       clickedProblem: index
     })
+    this.props.callback(index);
   }
 
   render(){

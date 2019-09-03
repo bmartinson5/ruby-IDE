@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Draft from "draft-js";
 import "../css/CodeContent.css";
-import {firstEditor} from '../helpers/default_editors.js'
+import {default_editors} from '../helpers/default_editors.js'
 import {variableNames, compositeDecorator} from '../helpers/strategies.js'
 
 const { hasCommandModifier } = Draft.KeyBindingUtil;
@@ -18,11 +18,12 @@ const createWithRawContent = rawSampleJson => {
 };
 
 
+
 export default class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.keyBindingFn = this.keyBindingFn.bind(this);
-    const firstEditorContent = createWithRawContent(firstEditor)
+    const firstEditorContent = createWithRawContent(default_editors[this.props.problemIndex])
     this.state = {
       // editorState: Draft.EditorState.createEmpty(compositeDecorator),
       editorState: firstEditorContent,
@@ -30,8 +31,19 @@ export default class Editor extends React.Component {
       text: "",
       lastWasReturn: false,
       lastWasD: true,
-      possibleSuggestions: variableNames
+      possibleSuggestions: variableNames,
+      problemIndex: this.props.problemIndex
     };
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps.problemIndex !== this.props.problemIndex){
+      const nextEditorContent = createWithRawContent(default_editors[this.props.problemIndex])
+      this.setState({
+        editorState: nextEditorContent,
+        problemIndex: this.props.problemIndex
+      });
+    }
   }
 
   setLineNums = () => {
