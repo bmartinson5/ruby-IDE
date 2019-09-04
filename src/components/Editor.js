@@ -49,17 +49,18 @@ export default class Editor extends React.Component {
 
     axios.get(`http://localhost:3000/problem?problem_index=${this.props.problemIndex}`)
     .then(response => {
-      console.log('resp', response.data[response.data.length-1].content)
       let newEditor;
       let editor;
-      if(response){
+      if(response.data.length){
+        console.log('resp', response.data)
         editor = response.data[response.data.length-1].content
         newEditor = createWithRawContent(editor)
+        const lineNums = (editor.blocks) ? editor.blocks.length: 0
+        this.setState({
+          editorState: newEditor,
+          lineNums: editor.blocks.length
+        })
       }
-      this.setState({
-        editorState: newEditor,
-        lineNums: editor.blocks.length
-      })
 
     })
     .catch(error => console.log(error))
@@ -73,7 +74,7 @@ export default class Editor extends React.Component {
         editorState: nextEditorContent,
         lineNums: editor.blocks.length,
         problemIndex: this.props.problemIndex
-      });
+      }, this.getSavedEditorState());
     }
   }
 
