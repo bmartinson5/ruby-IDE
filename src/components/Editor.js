@@ -24,28 +24,43 @@ export default class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.keyBindingFn = this.keyBindingFn.bind(this);
+
     const editor = default_editors[this.props.problemIndex];
-    const firstEditorContent = createWithRawContent(editor)
+    const firstEditor = createWithRawContent(editor)
+
     this.state = {
       // editorState: Draft.EditorState.createEmpty(compositeDecorator),
-      editorState: firstEditorContent,
-      lineNums: editor.blocks.length,
+      editorState: firstEditor,
+      lineNums: 0,
       text: "",
       lastWasReturn: false,
       lastWasD: true,
       possibleSuggestions: variableNames,
       problemIndex: this.props.problemIndex
     };
+
+    this.getSavedEditorState();
+
   }
 
-  componentDidMount = () => {
 
-    axios.get(`http://localhost:3000/problem?problem_index=0`)
+
+  getSavedEditorState = () => {
+
+    axios.get(`http://localhost:3000/problem?problem_index=${this.props.problemIndex}`)
     .then(response => {
-      console.log(response.data[response.data.length-1])
-      // this.setState({
-      //   editorState: response.data[0]
-      // })
+      console.log('resp', response.data[response.data.length-1].content)
+      let newEditor;
+      let editor;
+      if(response){
+        editor = response.data[response.data.length-1].content
+        newEditor = createWithRawContent(editor)
+      }
+      this.setState({
+        editorState: newEditor,
+        lineNums: editor.blocks.length
+      })
+
     })
     .catch(error => console.log(error))
   }
