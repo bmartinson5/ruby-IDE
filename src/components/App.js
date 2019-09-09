@@ -21,9 +21,9 @@ class App extends Component {
   }
   render(){
     return (
-      <div>
-        <Editor problemIndex={this.state.currentProblem}/>
+      <div className="container">
         <Problems callback={this.handleProblemChange}/>
+        <Editor problemIndex={this.state.currentProblem}/>
       </div>
     );
   }

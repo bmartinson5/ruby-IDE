@@ -361,19 +361,17 @@ export default class Editor extends React.Component {
       );
     }
 
+    // <div className="side-numbers">{lineNumsOutput}</div>
+          //<button onClick={this.handleSave}> save</button>
     return (
-      <div>
         <div className="editor">
-          <div className="side-numbers">{lineNumsOutput}</div>
           <Draft.Editor
             editorState={this.state.editorState}
             onChange={this.editorStateChanged}
             onTab={this.handleTab}
             keyBindingFn={this.keyBindingFn}
           />
-          <button onClick={this.handleSave}> save</button>
         </div>
-      </div>
     );
   }
 }
