@@ -14,24 +14,12 @@ export default class Editor extends React.Component {
     }
   }
 
-  handleProblemChange = (index) => {
-    this.setState({
-      clickedProblem: index
-    })
-    this.props.callback(index);
-  }
 
   render(){
     return (
 
       <div className="code-runner">
-        <p>
-        {descriptions[this.state.clickedProblem].content}
-        </p>
-        <h5>Example: </h5>
-        <p>
-        {descriptions[this.state.clickedProblem].example}
-        </p>
+        {this.props.codeOutput}
       </div>
     )
   }

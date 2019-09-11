@@ -350,6 +350,7 @@ export default class Editor extends React.Component {
     });
   };
 
+
   handleSave = () => {
     const contentState = this.state.editorState.getCurrentContent();
     const rawJson = Draft.convertToRaw(contentState);
@@ -359,8 +360,6 @@ export default class Editor extends React.Component {
              console.log(response.data)
          })
          .catch(error => console.log(error))
-
-
   }
 
   render() {
@@ -372,7 +371,7 @@ export default class Editor extends React.Component {
           {i.toString()}
         </div>
       );
-    }  
+    }
 
 
     return (
@@ -384,6 +383,8 @@ export default class Editor extends React.Component {
             onTab={this.handleTab}
             keyBindingFn={this.keyBindingFn}
           />
+          <br/>
+        <button onClick={() => this.props.handleRunCode(this.state.editorState.getCurrentContent())}>Run</button>
         </div>
     );
   }
