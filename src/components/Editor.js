@@ -366,28 +366,13 @@ export default class Editor extends React.Component {
   render() {
     const lineNumsOutput = [];
     const { possibleSuggestions } = this.state;
-    // for (let i = 1; i <= this.state.lineNums; ++i) {
-    //   lineNumsOutput.push(
-    //     <div className="line-number" key={i.toString()}>
-    //       {i.toString()}
-    //     </div>
-    //   );
-    // }
-
-    for (let i = 1; i <= this.state.lineNums-1; ++i) {
+    for (let i = 1; i <= this.state.lineNums; ++i) {
       lineNumsOutput.push(
         <div className="line-number" key={i.toString()}>
           {i.toString()}
         </div>
       );
-    }
-
-    lineNumsOutput.push(
-      <div className="last-line-number" key={this.state.lineNums}>
-        {this.state.lineNums.toString()}
-      </div>
-    );
-
+    }  
 
 
     return (
