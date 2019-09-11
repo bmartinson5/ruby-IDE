@@ -40,13 +40,37 @@ export default class Editor extends React.Component {
     };
 
     this.getSavedEditorState();
-
   }
 
 
+  componentDidUpdate(prevProps){
+    if(prevProps.problemIndex !== this.props.problemIndex){
+      this.saveEditorState()
+      const editor = default_editors[this.props.problemIndex];
+      const nextEditorContent = createWithRawContent(editor)
+      this.setState({
+        editorState: nextEditorContent,
+        lineNums: editor.blocks.length,
+        problemIndex: this.props.problemIndex
+      }, this.getSavedEditorState());
+    }
+  }
+
+  componentDidUnmount(){
+    this.saveEditorState()
+  }
+
+  saveEditorState = () => {
+      const contentState = this.state.editorState.getCurrentContent();
+      const rawJson = Draft.convertToRaw(contentState);
+      axios.post('http://localhost:3000/contents', ({content: rawJson, problem_index: this.state.problemIndex}))
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(error => console.log(error))
+  }
 
   getSavedEditorState = () => {
-
     axios.get(`http://localhost:3000/problem?problem_index=${this.props.problemIndex}`)
     .then(response => {
       let newEditor;
@@ -66,17 +90,6 @@ export default class Editor extends React.Component {
     .catch(error => console.log(error))
   }
 
-  componentDidUpdate(prevProps){
-    if(prevProps.problemIndex !== this.props.problemIndex){
-      const editor = default_editors[this.props.problemIndex];
-      const nextEditorContent = createWithRawContent(editor)
-      this.setState({
-        editorState: nextEditorContent,
-        lineNums: editor.blocks.length,
-        problemIndex: this.props.problemIndex
-      }, this.getSavedEditorState());
-    }
-  }
 
   setLineNums = () => {
     const lineNums = this.state.editorState
@@ -362,7 +375,6 @@ export default class Editor extends React.Component {
     }
 
     // <div className="side-numbers">{lineNumsOutput}</div>
-          //<button onClick={this.handleSave}> save</button>
     return (
         <div className="editor">
           <Draft.Editor
