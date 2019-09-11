@@ -1,4 +1,4 @@
-.problems-list {
+.code-runner {
   background-color: white;
   color: black;
   font-size: 20px;
@@ -16,18 +16,8 @@
   font-family: Tahoma, sans-serif;
 }
 
-.problem-list-item {
-  background-color: #F2F2F2;
-  border-bottom: 2px solid #cccccc;
-  padding: 20px;
-  position: relative;
-}
-
-.selected-item {
-  background-color: #ffe068;
-}
-
 .problem-description {
+  padding: 20px;
   font-size: 20px;
   padding: 20px;
 }
