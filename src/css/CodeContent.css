@@ -8,52 +8,48 @@ body {
 }
 
 div[contenteditable="true"] {
-  background-color: white;
-  font-size: 20px;
-  position: relative;
   width: 100%;
-  height: 100%;
-  display: inline-block;
-  padding: 20px;
   padding-left: 40px;
-  resize: none;
-  outline: none;
-  border: 1.5px solid #cccccc;
-  font-family: Tahoma, sans-serif;
-  overflow-y:auto;
+  padding-top: 30px;
+  display: inline-block;
 }
 
+
 .editor {
-  height: 840px;
+  font-size: 20px;
+  position: relative;
+  resize: none;
+  outline: none;
+  font-family: Tahoma, sans-serif;
+  overflow-y:auto;
+  background-color: white;
+  border: 1.5px solid #cccccc;
+  height: 880px;
   vertical-align: top;
   margin: 10px;
-  margin-right: 20px;
   width: 45%;
   display: inline-block;
 }
 
 
-.line-number {
-  font-size: 20px;
-}
 
 div[data-contents="true"], .DraftEditor-root, .DraftEditor-editorContainer {
+  display: inline-block;
   height: 100%;
 }
 
-.draft-editor-root
-
 
 .side-numbers {
+  font-size: 20px;
+  padding-left: 20px;
   font-family: Tahoma, sans-serif;
   color: grey;
   display: inline-block;
-  position: absolute;
   width: 10px;
-  margin-top: 53.5px;
-  margin-right: 50px;
-  left: 130px;
-  z-index: 10;
+}
+
+.last-line-number {
+  display: inline;
 }
 
 .side-numbers,
