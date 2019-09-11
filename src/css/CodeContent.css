@@ -31,6 +31,19 @@ div[contenteditable="true"] {
   display: inline-block;
 }
 
+.editor button {
+  position: absolute;
+  right: 8%;
+  top: 4%;
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #F2F2F2;
+}
+
+.editor button:hover {
+  background-color: #ffe068;
+}
 
 
 div[data-contents="true"], .DraftEditor-root, .DraftEditor-editorContainer {

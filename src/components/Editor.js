@@ -296,7 +296,7 @@ export default class Editor extends React.Component {
   }
 
   lineStartedScope = prevLine => {
-    return prevLine.match(/\b(def|if|while|for)\b/g) !== null;
+    return prevLine.match(/\b(def|if|while|for|do)\b/g) !== null;
   };
 
   lineEndedScope = prevLine => {
@@ -383,8 +383,8 @@ export default class Editor extends React.Component {
             onTab={this.handleTab}
             keyBindingFn={this.keyBindingFn}
           />
-          <br/>
-        <button onClick={() => this.props.handleRunCode(this.state.editorState.getCurrentContent())}>Run</button>
+
+        <button onClick={() => this.props.handleRunCode(this.state.editorState.getCurrentContent())}>Run Code</button>
         </div>
     );
   }
