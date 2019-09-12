@@ -12,16 +12,16 @@ Features included so far:
 - Auto-indentation based on scopes
 - Keyword highlighting (different colors depending on type of keyword)
 - Line numbering
+- Running code on a backend server 
+- Testing code that is run
 
 Future feature goals:
 
 - Variable name suggestions
 - Find and replace
 - Multiple files
-- Running code on a backend server (with security checks)
-- Testing code that is run
 - Underlined errors
-- Auto-generating classes
+- Injection security checks 
 
 ## Setup/Installation Requirements
 
@@ -35,6 +35,8 @@ npm run start
 ```
 
 4.  Go to localhost:8080 in the browser
+5.  Follow steps in https://github.com/bmartinson5/ruby-ide-backend/blob/master/README.md 
+    to run the backend server
 
 ## Known Bugs
 
