@@ -1,5 +1,4 @@
-# Ruby-IDE
-
+# Ruby-Runner
 #### By Ben Martinson
 
 ## Description
@@ -13,7 +12,9 @@ Features included so far:
 - Keyword highlighting (different colors depending on type of keyword)
 - Line numbering
 - Running code on a backend server 
-- Testing code that is run
+- Printing output in browser
+- Testing code that is run and displaying results
+
 
 Future feature goals:
 
@@ -34,7 +35,7 @@ npm install
 npm run start
 ```
 
-4.  Go to localhost:8080 in the browser
+4.  Go to localhost:3000 in the browser (should open by default)
 5.  Follow steps in https://github.com/bmartinson5/ruby-ide-backend/blob/master/README.md 
     to run the backend server
 
@@ -48,7 +49,7 @@ If you find a bug, run into any issues, or have questions, ideas or concerns ple
 
 ## Technologies Used
 
-Javascript, React, Draft.js, Bootstrap, css, html
+Javascript, React, Ruby on Rails, SQL, Draft.js, Bootstrap, css, html
 
 ### License
 
