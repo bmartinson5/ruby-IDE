@@ -19,7 +19,9 @@ export default class Editor extends React.Component {
     return (
 
       <div className="code-runner">
-        {this.props.codeOutput}
+        <div className="test-output">
+          {this.props.codeOutput}
+        </div>
       </div>
     )
   }

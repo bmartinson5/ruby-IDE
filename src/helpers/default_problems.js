@@ -3,5 +3,5 @@ export const default_problems = [
   "Fizz_Buzz",
   "Palindromes",
   "Anagrams",
-  "Reverse List"
+  "Reverse"
 ]

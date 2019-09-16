@@ -10,7 +10,7 @@ import Navbar from "./Navbar";
 import Test from "./Test";
 import {default_editors} from '../helpers/default_editors.js'
 import {default_problems} from '../helpers/default_problems.js'
-import {testInputs, expectedOutputs} from '../helpers/test_params.js'
+import {testInputs, expectedOutputs, testDescriptions} from '../helpers/test_params.js'
 
 class App extends Component {
   constructor(props){
@@ -42,12 +42,22 @@ class App extends Component {
     let output = []
 
     tests.forEach((test, index) => {
-      const testInput = testInputs[this.state.currentProblem][index];
-      const testOutput = test ? parseInt(test): "No output or return statement";
-      const expectedOutput = expectedOutputs[this.state.currentProblem][index];
+      let testInput = testInputs[this.state.currentProblem][index];
+      let testDescription = testDescriptions[this.state.currentProblem][index]
+      let testOutput = test ? test: "No output or return statement";
+      let expectedOutput = expectedOutputs[this.state.currentProblem][index];
+      console.log("testOutput", testOutput);
+      console.log("expectedOutput", expectedOutput);
+      console.log("testOutput", typeof testOutput);
+      console.log("expectedOutput", typeof expectedOutput);
+      console.log("equal = ", expectedOutput == testOutput);
       const testColor = expectedOutput == testOutput ? "green": "red"
+
+      output.push(<p style={{color: testColor}}>Test Description: {testDescription}</p>)
       output.push(<p style={{color: testColor}}>Test Input: {testInput}</p>)
+      output.push(<p style={{color: testColor}}>Expected Output: {expectedOutput}</p>)
       output.push(<p style={{color: testColor}}>Test Output: {testOutput}</p>)
+      output.push(<br/>)
     })
     this.setState({ codeOutput: output})
   }
