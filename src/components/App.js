@@ -9,6 +9,7 @@ import axios from 'axios'
 import Navbar from "./Navbar";
 import Test from "./Test";
 import {default_editors} from '../helpers/default_editors.js'
+import {test_inputs} from '../helpers/test_inputs.js'
 
 class App extends Component {
   constructor(props){
@@ -37,9 +38,13 @@ class App extends Component {
 
   formatCodeOutput = (tests) => {
     let output = []
+
     tests.forEach((test, index) => {
-      output.push(<p>Test Input: 1</p>)
-      output.push(<p>Test Output: {test ? test: "No output or return statement"}</p>)
+      const testInput = test_inputs[this.state.currentProblem][index];
+      const testOutput = test ? parseInt(test): "No output or return statement";
+      const testColor = testInput == testOutput ? "green": "red"
+      output.push(<p style={{color: testColor}}>Test Input: {testInput}</p>)
+      output.push(<p style={{color: testColor}}>Test Output: {testOutput}</p>)
     })
     this.setState({ codeOutput: output})
   }
