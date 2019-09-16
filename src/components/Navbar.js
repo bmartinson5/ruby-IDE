@@ -17,11 +17,9 @@ class Navbar extends Component {
 
           </div>
           <div className="navbar-item">
-            
+
           </div>
-          <div className="navbar-item">
-            Sign In
-          </div>
+          
         </div>
 
       </div>

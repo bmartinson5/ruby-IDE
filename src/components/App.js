@@ -8,13 +8,15 @@ import * as Draft from "draft-js";
 import axios from 'axios'
 import Navbar from "./Navbar";
 import Test from "./Test";
+import {default_editors} from '../helpers/default_editors.js'
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
       currentProblem: 0,
-      codeOutput: ""
+      codeOutput: "",
+      savedEditors: default_editors
     }
   }
 
@@ -38,12 +40,23 @@ class App extends Component {
     })
   }
 
+  handleSaveEditor = (editorToSave, problemIndex) => {
+    const editors = this.state.savedEditors.slice()
+    editors[problemIndex] = editorToSave
+    this.setState({
+      savedEditors: editors
+    })
+  }
+
   render(){
     return (
       <div className="container">
         <Navbar />
         <Problems callback={this.handleProblemChange}/>
-        <Editor handleRunCode={this.handleRunCode} problemIndex={this.state.currentProblem}/>
+        <Editor handleRunCode={this.handleRunCode}
+          default_editors={this.state.savedEditors}
+          handleSaveEditor={this.handleSaveEditor}
+          problemIndex={this.state.currentProblem}/>
         <CodeRunner  codeOutput={this.state.codeOutput} />
       </div>
     );

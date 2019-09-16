@@ -2,7 +2,6 @@ import * as React from "react";
 import * as Draft from "draft-js";
 import axios from 'axios'
 import "../css/CodeContent.css";
-import {default_editors} from '../helpers/default_editors.js'
 import {variableNames, compositeDecorator} from '../helpers/strategies.js'
 
 const { hasCommandModifier } = Draft.KeyBindingUtil;
@@ -25,7 +24,7 @@ export default class Editor extends React.Component {
     super(props);
     this.keyBindingFn = this.keyBindingFn.bind(this);
 
-    const editor = default_editors[this.props.problemIndex];
+    const editor = this.props.default_editors[this.props.problemIndex];
     const firstEditor = createWithRawContent(editor)
 
     this.state = {
@@ -46,7 +45,7 @@ export default class Editor extends React.Component {
   componentDidUpdate(prevProps){
     if(prevProps.problemIndex !== this.props.problemIndex){
       this.saveEditorState()
-      const editor = default_editors[this.props.problemIndex];
+      const editor = this.props.default_editors[this.props.problemIndex];
       const nextEditorContent = createWithRawContent(editor)
       this.setState({
         editorState: nextEditorContent,
@@ -63,31 +62,32 @@ export default class Editor extends React.Component {
   saveEditorState = () => {
       const contentState = this.state.editorState.getCurrentContent();
       const rawJson = Draft.convertToRaw(contentState);
-      axios.post('http://localhost:3000/contents', ({content: rawJson, problem_index: this.state.problemIndex}))
-      .then(response => {
-        console.log(response.data)
-      })
-      .catch(error => console.log(error))
+      this.props.handleSaveEditor(rawJson, this.state.problemIndex)
+      // axios.post('http://localhost:3000/contents', ({content: rawJson, problem_index: this.state.problemIndex}))
+      // .then(response => {
+      //   console.log(response.data)
+      // })
+      // .catch(error => console.log(error))
   }
 
   getSavedEditorState = () => {
-    axios.get(`http://localhost:3000/problem?problem_index=${this.props.problemIndex}`)
-    .then(response => {
-      let newEditor;
-      let editor;
-      if(response.data.length){
-        console.log('resp', response.data)
-        editor = response.data[response.data.length-1].content
-        newEditor = createWithRawContent(editor)
-        const lineNums = (editor.blocks) ? editor.blocks.length: 0
-        this.setState({
-          editorState: newEditor,
-          lineNums: editor.blocks.length
-        })
-      }
-
-    })
-    .catch(error => console.log(error))
+    // axios.get(`http://localhost:3000/problem?problem_index=${this.props.problemIndex}`)
+    // .then(response => {
+    //   let newEditor;
+    //   let editor;
+    //   if(response.data.length){
+    //     console.log('resp', response.data)
+    //     editor = response.data[response.data.length-1].content
+    //     newEditor = createWithRawContent(editor)
+    //     const lineNums = (editor.blocks) ? editor.blocks.length: 0
+    //     this.setState({
+    //       editorState: newEditor,
+    //       lineNums: editor.blocks.length
+    //     })
+    //   }
+    //
+    // })
+    // .catch(error => console.log(error))
   }
 
 
