@@ -23,14 +23,25 @@ class App extends Component {
   handleRunCode = (currentEditor) => {
     const rawJson = Draft.convertToRaw(currentEditor);
     console.log('before send', rawJson);
-    axios.post('http://localhost:3000/run', ({content: rawJson, problem_index: this.state.problemIndex}))
+    axios.post('http://localhost:3000/run', ({function_name: "test", content: rawJson, problem_index: this.state.problemIndex}))
          .then(response => {
-            this.setState({ codeOutput: response.data })
+           console.log('response ', response.data);
+           // this.setState({ codeOutput: response.data })
+           this.formatCodeOutput(response.data)
          })
          .catch(error => {
           this.setState({ codeOutput: "error" })
            console.log('error', error.response)
          })
+  }
+
+  formatCodeOutput = (tests) => {
+    let output = []
+    tests.forEach((test, index) => {
+      output.push(<p>Test Input: 1</p>)
+      output.push(<p>Test Output: {test ? test: "No output or return statement"}</p>)
+    })
+    this.setState({ codeOutput: output})
   }
 
 
