@@ -1,6 +1,6 @@
 export const default_problems = [
   "Test",
-  "Fizz-Buzz",
+  "Fizz_Buzz",
   "Palindromes",
   "Anagrams",
   "Reverse List"

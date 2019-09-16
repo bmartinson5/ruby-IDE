@@ -9,7 +9,8 @@ import axios from 'axios'
 import Navbar from "./Navbar";
 import Test from "./Test";
 import {default_editors} from '../helpers/default_editors.js'
-import {test_inputs} from '../helpers/test_inputs.js'
+import {default_problems} from '../helpers/default_problems.js'
+import {testInputs, expectedOutputs} from '../helpers/test_params.js'
 
 class App extends Component {
   constructor(props){
@@ -23,8 +24,9 @@ class App extends Component {
 
   handleRunCode = (currentEditor) => {
     const rawJson = Draft.convertToRaw(currentEditor);
-    console.log('before send', rawJson);
-    axios.post('http://localhost:3000/run', ({function_name: "test", content: rawJson, problem_index: this.state.problemIndex}))
+    const pid = this.state.currentProblem;
+    console.log('before send', {function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem});
+    axios.post('http://localhost:3000/run', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
          .then(response => {
            console.log('response ', response.data);
            // this.setState({ codeOutput: response.data })
@@ -40,9 +42,10 @@ class App extends Component {
     let output = []
 
     tests.forEach((test, index) => {
-      const testInput = test_inputs[this.state.currentProblem][index];
+      const testInput = testInputs[this.state.currentProblem][index];
       const testOutput = test ? parseInt(test): "No output or return statement";
-      const testColor = testInput == testOutput ? "green": "red"
+      const expectedOutput = expectedOutputs[this.state.currentProblem][index];
+      const testColor = expectedOutput == testOutput ? "green": "red"
       output.push(<p style={{color: testColor}}>Test Input: {testInput}</p>)
       output.push(<p style={{color: testColor}}>Test Output: {testOutput}</p>)
     })
