@@ -185,7 +185,7 @@ export const default_editors = [
 
       {
         key: "5h45l",
-        text: "def check_anagram(word)",
+        text: "def check_anagram(mixedWord, word)",
         type: "unstyled",
         depth: 0,
         entityRanges: [],

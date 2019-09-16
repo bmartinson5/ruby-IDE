@@ -53,10 +53,10 @@ class App extends Component {
       console.log("equal = ", expectedOutput == testOutput);
       const testColor = expectedOutput == testOutput ? "green": "red"
 
-      output.push(<p style={{color: testColor}}>Test Description: {testDescription}</p>)
-      output.push(<p style={{color: testColor}}>Test Input: {testInput}</p>)
+      output.push(<p >Test Description: {testDescription}</p>)
+      output.push(<p >Input: {testInput}</p>)
       output.push(<p style={{color: testColor}}>Expected Output: {expectedOutput}</p>)
-      output.push(<p style={{color: testColor}}>Test Output: {testOutput}</p>)
+      output.push(<p style={{color: testColor}}>Output: {testOutput}</p>)
       output.push(<br/>)
     })
     this.setState({ codeOutput: output})

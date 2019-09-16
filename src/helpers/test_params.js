@@ -2,8 +2,8 @@ export const testInputs = [
   ["3", "4", "5"],
   ["2", "15"],
   [],
-  [],
-  ["[1,2,3]", "[1,2,3,4]"]
+  ["(\"eroh\", \"hero\")", "(\"HleOl\", \"HellO\")", "(\"not\", \"aword\")"],
+  ["[1,2,3]", "[1,2,3,4]", "[-1, -2, -3]"]
 
 ]
 
@@ -11,16 +11,16 @@ export const testDescriptions = [
   [],
   [],
   [],
-  [],
-  ["Simple increasing array", "Jumbled Array"]
+  ["All lowercase", "Mix of Cases", "Not an Anagram"],
+  ["Simple increasing array", "Jumbled Array", "Array with Negative Numbers"]
 ]
 
 export const expectedOutputs = [
   ["3", "4", "5"],
   [],
   [],
-  [],
-  ["[3, 2, 1]", "[4, 6, 8, 1]"]
+  ["true", "true", "false"],
+  ["[3, 2, 1]", "[4, 6, 8, 1]", "[-3, -2, -1]"]
 ]
 
 // count_to.times do |count|
