@@ -1,4 +1,5 @@
 .problems-list {
+  white-space: normal;
   background-color: white;
   color: black;
   font-size: 20px;

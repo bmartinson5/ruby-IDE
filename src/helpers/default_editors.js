@@ -222,7 +222,7 @@ export const default_editors = [
     blocks: [
       {
         key: "5h45a",
-        text: "# @param {Interger} count_to",
+        text: "# @param {Interger array []} arr",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
@@ -230,7 +230,7 @@ export const default_editors = [
       },
       {
         key: "5h45b",
-        text: "# @return {Null} printed lines",
+        text: "# @return {Integer array []}",
         type: "unstyled",
         depth: 0,
         entityRanges: [],

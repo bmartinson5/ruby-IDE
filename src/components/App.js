@@ -3,13 +3,12 @@ import "../css/App.css";
 import CodeContent from "./CodeContent";
 import Editor from "./Editor";
 import Problems from "./Problems";
-import CodeRunner from "./CodeRunner";
 import * as Draft from "draft-js";
 import axios from 'axios'
 import Navbar from "./Navbar";
 import Test from "./Test";
 import {default_editors} from '../helpers/default_editors.js'
-import {default_problems} from '../helpers/default_problems.js'
+import {default_problems, problem_names} from '../helpers/default_problems.js'
 import {testInputs, expectedOutputs, testDescriptions} from '../helpers/test_params.js'
 
 class App extends Component {
@@ -18,6 +17,7 @@ class App extends Component {
     this.state = {
       currentProblem: 0,
       codeOutput: "",
+      savedTests: ["", "", "", "", ""],
       savedEditors: default_editors
     }
   }
@@ -64,8 +64,14 @@ class App extends Component {
 
 
   handleProblemChange = (newIndex) => {
+    const {currentProblem, savedTests, codeOutput} = this.state
+    const newSavedTests = savedTests.slice()
+    newSavedTests[currentProblem] = codeOutput
+    const newOutput = savedTests[newIndex]
     this.setState({
-      currentProblem: newIndex
+      currentProblem: newIndex,
+      codeOutput: newOutput,
+      savedTests: newSavedTests
     })
   }
 
@@ -77,6 +83,7 @@ class App extends Component {
     })
   }
 
+        // <CodeRunner  savedTests={this.state.savedTests[this.state.currentProblem]} codeOutput={this.state.codeOutput} />
   render(){
     return (
       <div className="container">
@@ -86,7 +93,11 @@ class App extends Component {
           default_editors={this.state.savedEditors}
           handleSaveEditor={this.handleSaveEditor}
           problemIndex={this.state.currentProblem}/>
-        <CodeRunner  codeOutput={this.state.codeOutput} />
+          <div className="code-runner">
+            <div className="test-output">
+              {this.state.codeOutput ? this.state.codeOutput: (<span style={{color: "grey"}}>Run some code to display tests</span>)}
+            </div>
+          </div>
       </div>
     );
   }

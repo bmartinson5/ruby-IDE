@@ -3,3 +3,37 @@ h1 {
   margin-top: 25px;
   color: #21230E;
 }
+
+.container {
+  white-space: nowrap;
+}
+
+.code-runner {
+  white-space: normal;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  position: relative;
+  width: 25%;
+  height: 880px;
+  margin: 10px;
+  resize: none;
+  outline: none;
+  border: 1.5px solid #cccccc;
+  padding: 0px;
+  padding-left: 0px;
+  display: inline-block;
+  overflow-y:auto;
+  font-family: Tahoma, sans-serif;
+}
+
+.problem-description {
+  padding: 20px;
+  font-size: 20px;
+  padding: 20px;
+}
+
+.test-output {
+  padding: 40px;
+  padding-left: 60px;
+}

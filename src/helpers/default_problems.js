@@ -5,3 +5,11 @@ export const default_problems = [
   "check_anagram",
   "Reverse"
 ]
+
+export const problem_names = [
+  "Test",
+  "Fizz Buzz",
+  "Palindromes",
+  "Check Anagram",
+  "Reverse Array"
+]

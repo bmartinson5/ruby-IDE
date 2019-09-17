@@ -16,6 +16,7 @@ div[contenteditable="true"] {
 
 
 .editor {
+  white-space: normal;
   font-size: 20px;
   position: relative;
   resize: none;
