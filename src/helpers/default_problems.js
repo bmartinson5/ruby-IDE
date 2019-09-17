@@ -1,15 +1,13 @@
 export const default_problems = [
-  "Test",
-  "Fizz_Buzz",
-  "Palindromes",
+  "two_sum",
+  "check_palindrome",
   "check_anagram",
-  "Reverse"
+  "reverse"
 ]
 
 export const problem_names = [
-  "Test",
-  "Fizz Buzz",
+  "Two Sum",
   "Palindromes",
-  "Check Anagram",
+  "Anagrams",
   "Reverse Array"
 ]
