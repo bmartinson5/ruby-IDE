@@ -355,7 +355,7 @@ export default class Editor extends React.Component {
     const contentState = this.state.editorState.getCurrentContent();
     const rawJson = Draft.convertToRaw(contentState);
     console.log('before send', rawJson);
-    axios.post('http://localhost:3000/contents', ({content: rawJson, problem_index: this.state.problemIndex}))
+    axios.post('https://ruby-runner-api.herokuapp.com/contents', ({content: rawJson, problem_index: this.state.problemIndex}))
          .then(response => {
              console.log(response.data)
          })
