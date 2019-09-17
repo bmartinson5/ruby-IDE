@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/ruby-runner/precache-manifest.a0cad43c15ca2b68d6e8569c698d0670.js"
+  "/ruby-runner/precache-manifest.a7d5b2e1cc1e05bd508264eaf09ce367.js"
 );
 
 self.addEventListener('message', (event) => {
