@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "fea106c9acf4983ec74e59f8eeebf1ef",
+    "revision": "d0ee868090ca1ecccc0ea56b3d4f9c9e",
     "url": "/ruby-runner/index.html"
   },
   {
-    "revision": "4fd8e9328d1df4a3a1e0",
+    "revision": "4c6146211101e7fc34fa",
     "url": "/ruby-runner/static/css/main.1baa5580.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ruby-runner/static/js/2.e96708c6.chunk.js"
   },
   {
-    "revision": "4fd8e9328d1df4a3a1e0",
-    "url": "/ruby-runner/static/js/main.596d722b.chunk.js"
+    "revision": "4c6146211101e7fc34fa",
+    "url": "/ruby-runner/static/js/main.bcdfc66b.chunk.js"
   },
   {
     "revision": "6c2dfa95c481316490e2",
