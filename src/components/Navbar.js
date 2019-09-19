@@ -11,7 +11,7 @@ class Navbar extends Component {
       <div className="navbar">
         <div className="navbar-items">
           <div className="logo">
-            Code Wars
+            Ruby Runner
           </div>
           <div className="navbar-item">
 
@@ -19,7 +19,7 @@ class Navbar extends Component {
           <div className="navbar-item">
 
           </div>
-          
+
         </div>
 
       </div>

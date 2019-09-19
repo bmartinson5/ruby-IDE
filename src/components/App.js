@@ -10,6 +10,7 @@ import Test from "./Test";
 import {default_editors} from '../helpers/default_editors.js'
 import {default_problems, problem_names} from '../helpers/default_problems.js'
 import {testInputs, expectedOutputs, testDescriptions} from '../helpers/test_params.js'
+import Loader from 'react-loader-spinner'
 
 class App extends Component {
   constructor(props){
@@ -18,6 +19,8 @@ class App extends Component {
       currentProblem: 0,
       codeOutput: "",
       savedTests: ["", "", "", "", ""],
+      loading: false,
+      firstCallToAPi: true,
       savedEditors: default_editors
     }
   }
@@ -25,16 +28,24 @@ class App extends Component {
   handleRunCode = (currentEditor) => {
     const rawJson = Draft.convertToRaw(currentEditor);
     const pid = this.state.currentProblem;
+    this.setState({ loading: true })
     console.log('before send', {function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem});
-    // axios.post('https://ruby-runner-api.herokuapp.com/run', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
-    axios.post('localhost:3000/run', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
+    axios.post('https://ruby-runner-api.herokuapp.com/run', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
+    // axios.post('localhost:3000/run', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
          .then(response => {
+           this.setState({
+             loading: false,
+             firstCallToAPi: false
+           })
            console.log('response ', response.data);
-           // this.setState({ codeOutput: response.data })
            this.formatCodeOutput(response.data)
          })
          .catch(error => {
-          this.setState({ codeOutput: "error" })
+           this.setState({
+             codeOutput: "Server Error",
+             loading: false,
+             firstCallToAPi: false
+           })
            console.log('error', error.response)
          })
   }
@@ -83,7 +94,7 @@ class App extends Component {
       savedEditors: editors
     })
   }
-
+        //  <span>Loading: takes a few seconds for the server to start at first</span>
         // <CodeRunner  savedTests={this.state.savedTests[this.state.currentProblem]} codeOutput={this.state.codeOutput} />
   render(){
     return (
@@ -93,12 +104,26 @@ class App extends Component {
         <Editor handleRunCode={this.handleRunCode}
           default_editors={this.state.savedEditors}
           handleSaveEditor={this.handleSaveEditor}
-          problemIndex={this.state.currentProblem}/>
-          <div className="code-runner">
-            <div className="test-output">
-              {this.state.codeOutput ? this.state.codeOutput: (<span style={{color: "grey"}}>Run some code to display tests</span>)}
-            </div>
+          problemIndex={this.state.currentProblem}
+        />
+
+        <div className="code-runner">
+          <div className="test-output">
+            {this.state.loading ? (<div
+               style={{
+                  width: "100%",
+                  height: "100",
+                  display: "block",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+                >
+                <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+                {this.state.firstCallToAPi && <p> Starting the server: Might take a few seconds</p>}
+                </div>):
+            (this.state.codeOutput ? this.state.codeOutput: (<span style={{color: "grey"}}>Run some code to display tests</span>))}
           </div>
+        </div>
       </div>
     );
   }
