@@ -83,7 +83,7 @@ class App extends Component {
     this.setState({
       currentProblem: newIndex,
       codeOutput: newOutput,
-      savedTests: newSavedTests
+      savedTests: newSavedTests,
     })
   }
 

@@ -3,6 +3,7 @@ import * as Draft from "draft-js";
 import axios from 'axios'
 import "../css/CodeContent.css";
 import {variableNames, compositeDecorator} from '../helpers/strategies.js'
+import {solution_editors} from '../helpers/solution_editors.js'
 
 const { hasCommandModifier } = Draft.KeyBindingUtil;
 
@@ -35,10 +36,10 @@ export default class Editor extends React.Component {
       lastWasReturn: false,
       lastWasD: true,
       possibleSuggestions: variableNames,
-      problemIndex: this.props.problemIndex
+      problemIndex: this.props.problemIndex,
+      solutionShow: false
     };
 
-    this.getSavedEditorState();
   }
 
 
@@ -47,11 +48,13 @@ export default class Editor extends React.Component {
       this.saveEditorState()
       const editor = this.props.default_editors[this.props.problemIndex];
       const nextEditorContent = createWithRawContent(editor)
+      if(this.state.solutionShow) this.hideShowSolution(false)
       this.setState({
+        solutionShow: false,
         editorState: nextEditorContent,
         lineNums: editor.blocks.length,
         problemIndex: this.props.problemIndex
-      }, this.getSavedEditorState());
+      });
     }
   }
 
@@ -63,31 +66,6 @@ export default class Editor extends React.Component {
       const contentState = this.state.editorState.getCurrentContent();
       const rawJson = Draft.convertToRaw(contentState);
       this.props.handleSaveEditor(rawJson, this.state.problemIndex)
-      // axios.post('http://localhost:3000/contents', ({content: rawJson, problem_index: this.state.problemIndex}))
-      // .then(response => {
-      //   console.log(response.data)
-      // })
-      // .catch(error => console.log(error))
-  }
-
-  getSavedEditorState = () => {
-    // axios.get(`http://localhost:3000/problem?problem_index=${this.props.problemIndex}`)
-    // .then(response => {
-    //   let newEditor;
-    //   let editor;
-    //   if(response.data.length){
-    //     console.log('resp', response.data)
-    //     editor = response.data[response.data.length-1].content
-    //     newEditor = createWithRawContent(editor)
-    //     const lineNums = (editor.blocks) ? editor.blocks.length: 0
-    //     this.setState({
-    //       editorState: newEditor,
-    //       lineNums: editor.blocks.length
-    //     })
-    //   }
-    //
-    // })
-    // .catch(error => console.log(error))
   }
 
 
@@ -362,6 +340,27 @@ export default class Editor extends React.Component {
          .catch(error => console.log(error))
   }
 
+  hideShowSolution = (solutionShow) => {
+    console.log(solutionShow);
+    let nextEditorContent;
+    if(solutionShow){
+      const editor = solution_editors[this.props.problemIndex];
+      nextEditorContent = createWithRawContent(editor)
+    } else {
+      const editor = this.props.default_editors[this.props.problemIndex];
+      nextEditorContent = createWithRawContent(editor)
+    }
+    this.setState({
+      editorState: nextEditorContent
+    });
+  }
+
+  toggleSolution = () => {
+    console.log(!this.state.solutionShow);
+    const newShow = !this.state.solutionShow
+    this.setState({ solutionShow: newShow}, this.hideShowSolution(newShow))
+  }
+
   render() {
     const lineNumsOutput = [];
     const { possibleSuggestions } = this.state;
@@ -384,7 +383,10 @@ export default class Editor extends React.Component {
             keyBindingFn={this.keyBindingFn}
           />
 
-        <button onClick={() => this.props.handleRunCode(this.state.editorState.getCurrentContent())}>Run Code</button>
+        <button className="run-button" onClick={() => this.props.handleRunCode(this.state.editorState.getCurrentContent())}>Run Code</button>
+        <button className="solution-button" onClick={() => this.toggleSolution()}>
+            {!this.state.solutionShow ? <span>Show Solution</span>: <span>Hide Solution</span>}
+        </button>
         </div>
     );
   }

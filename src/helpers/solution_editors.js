@@ -1,4 +1,4 @@
-export const default_editors = [
+export const solution_editors = [
   {
     entityMap: {},
     blocks: [
@@ -180,7 +180,7 @@ export const default_editors = [
         data: {}
       },
       {
-        key: "5h45l",
+        key: "5h45c",
         text: "def reverse(arr)",
         type: "unstyled",
         depth: 0,
@@ -188,23 +188,47 @@ export const default_editors = [
         data: {}
       },
       {
-        key: "5h45r",
-        text: "    ",
+        key: "5h45d",
+        text: "    reversed_array = []",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
         data: {}
       },
       {
-        key: "5h45x",
-        text: "    ",
+        key: "5h45e",
+        text: "    arr.each_with_index do |ele, i|",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
         data: {}
       },
       {
-        key: "5h45t",
+        key: "5h45f",
+        text: "        reversed_array.unshift(ele)",
+        type: "unstyled",
+        depth: 0,
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: "5h45g",
+        text: "    end",
+        type: "unstyled",
+        depth: 0,
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: "5h45h",
+        text: "    reversed_array",
+        type: "unstyled",
+        depth: 0,
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: "5h45i",
         text: "end",
         type: "unstyled",
         depth: 0,

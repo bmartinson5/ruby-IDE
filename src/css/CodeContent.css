@@ -28,20 +28,29 @@ div[contenteditable="true"] {
   height: 880px;
   vertical-align: top;
   margin: 10px;
+  min-width: 500px;
   width: 45%;
   display: inline-block;
 }
 
-.editor button {
+.run-button, .solution-button{
+  color: teal;
   position: absolute;
   right: 8%;
-  top: 4%;
-  width: 100px;
+  top: 80%;
+  width: 120px;
   height: 50px;
   border-radius: 10px;
   background-color: #F2F2F2;
   font-size: 15px;
 }
+
+.solution-button {
+  width: 120px;
+  right: 8%;
+  top: 90%;
+}
+
 
 .editor button:hover {
   background-color: #ffe068;
