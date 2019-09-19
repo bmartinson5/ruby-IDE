@@ -19,13 +19,3 @@ export const expectedOutputs = [
   ["true", "true","false"],
   ["[3, 2, 1]", "[4, 6, 8, 1]", "[-3, -2, -1]"]
 ]
-
-// count_to.times do |count|
-//       if count % 3 == 0
-//           print "Fizz"
-//       elsif count % 5 == 0
-//           print "Buzz"
-//       else
-//           print count
-//       end
-//   end

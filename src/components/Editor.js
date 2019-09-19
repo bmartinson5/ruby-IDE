@@ -342,16 +342,17 @@ export default class Editor extends React.Component {
 
   hideShowSolution = (solutionShow) => {
     console.log(solutionShow);
-    let nextEditorContent;
+    let nextEditorContent, editor;
     if(solutionShow){
-      const editor = solution_editors[this.props.problemIndex];
+      editor = solution_editors[this.props.problemIndex];
       nextEditorContent = createWithRawContent(editor)
     } else {
-      const editor = this.props.default_editors[this.props.problemIndex];
+      editor = this.props.default_editors[this.props.problemIndex];
       nextEditorContent = createWithRawContent(editor)
     }
     this.setState({
-      editorState: nextEditorContent
+      editorState: nextEditorContent,
+      lineNums: editor.blocks.length
     });
   }
 
@@ -364,6 +365,7 @@ export default class Editor extends React.Component {
   render() {
     const lineNumsOutput = [];
     const { possibleSuggestions } = this.state;
+    console.log(this.state.lineNums);
     for (let i = 1; i <= this.state.lineNums; ++i) {
       lineNumsOutput.push(
         <div className="line-number" key={i.toString()}>
