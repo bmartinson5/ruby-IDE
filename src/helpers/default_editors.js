@@ -4,7 +4,7 @@ export const default_editors = [
     blocks: [
       {
         key: "5h45a",
-        text: "# @param {Interger} count_to",
+        text: "# @param {Interger Array} arr, {Integer} target",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
@@ -12,7 +12,7 @@ export const default_editors = [
       },
       {
         key: "5h45b",
-        text: "# @return {Null} printed lines",
+        text: "# @return {Integer Array}",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
@@ -58,7 +58,7 @@ export const default_editors = [
     blocks: [
       {
         key: "5h45a",
-        text: "# @param {Interger} count_to",
+        text: "# @param {String} word",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
@@ -66,7 +66,7 @@ export const default_editors = [
       },
       {
         key: "5h45b",
-        text: "# @return {Null} printed lines",
+        text: "# @return {Boolean}",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
@@ -111,7 +111,7 @@ export const default_editors = [
     blocks: [
       {
         key: "5h45a",
-        text: "# @param {Interger} count_to",
+        text: "# @param {String} mixedWord, {String} word",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
@@ -119,7 +119,7 @@ export const default_editors = [
       },
       {
         key: "5h45b",
-        text: "# @return {Null} printed lines",
+        text: "# @return {Boolean}",
         type: "unstyled",
         depth: 0,
         entityRanges: [],

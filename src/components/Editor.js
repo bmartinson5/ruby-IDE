@@ -31,7 +31,7 @@ export default class Editor extends React.Component {
     this.state = {
       // editorState: Draft.EditorState.createEmpty(compositeDecorator),
       editorState: firstEditor,
-      lineNums: 0,
+      lineNums: editor.blocks.length,
       text: "",
       lastWasReturn: false,
       lastWasD: true,
@@ -329,19 +329,7 @@ export default class Editor extends React.Component {
   };
 
 
-  handleSave = () => {
-    const contentState = this.state.editorState.getCurrentContent();
-    const rawJson = Draft.convertToRaw(contentState);
-    console.log('before send', rawJson);
-    axios.post('https://ruby-runner-api.herokuapp.com/contents', ({content: rawJson, problem_index: this.state.problemIndex}))
-         .then(response => {
-             console.log(response.data)
-         })
-         .catch(error => console.log(error))
-  }
-
   hideShowSolution = (solutionShow) => {
-    console.log(solutionShow);
     let nextEditorContent, editor;
     if(solutionShow){
       editor = solution_editors[this.props.problemIndex];
@@ -357,7 +345,6 @@ export default class Editor extends React.Component {
   }
 
   toggleSolution = () => {
-    console.log(!this.state.solutionShow);
     const newShow = !this.state.solutionShow
     this.setState({ solutionShow: newShow}, this.hideShowSolution(newShow))
   }
@@ -365,7 +352,6 @@ export default class Editor extends React.Component {
   render() {
     const lineNumsOutput = [];
     const { possibleSuggestions } = this.state;
-    console.log(this.state.lineNums);
     for (let i = 1; i <= this.state.lineNums; ++i) {
       lineNumsOutput.push(
         <div className="line-number" key={i.toString()}>

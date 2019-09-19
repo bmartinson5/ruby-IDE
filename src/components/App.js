@@ -25,12 +25,20 @@ class App extends Component {
     }
   }
 
+  componentWillMount() {
+    //start the server, to reduce lag
+    axios.get('https://ruby-runner-api.herokuapp.com/contents')
+          .then(console.log('server started'))
+          .catch(error => {
+            console.log('server error on start');
+          })
+  }
+
   handleRunCode = (currentEditor) => {
     const rawJson = Draft.convertToRaw(currentEditor);
     const pid = this.state.currentProblem;
     this.setState({ loading: true })
-    console.log('before send', {function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem});
-    // axios.post('https://ruby-runner-api.herokuapp.com/run', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
+    // axios.post('https://ruby-runner-api.herokuapp.com/contents', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
     axios.post('http://localhost:3000/run/', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
          .then(response => {
            this.setState({
@@ -58,11 +66,6 @@ class App extends Component {
       let testDescription = testDescriptions[this.state.currentProblem][index]
       let testOutput = test ? test: "No output or return statement";
       let expectedOutput = expectedOutputs[this.state.currentProblem][index];
-      console.log("testOutput", testOutput);
-      console.log("expectedOutput", expectedOutput);
-      console.log("testOutput", typeof testOutput);
-      console.log("expectedOutput", typeof expectedOutput);
-      console.log("equal = ", expectedOutput == testOutput);
       const testColor = expectedOutput == testOutput ? "green": "red"
 
       output.push(<p >Test Description: {testDescription}</p>)

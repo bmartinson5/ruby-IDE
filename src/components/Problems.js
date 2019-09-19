@@ -25,7 +25,6 @@ export default class Editor extends React.Component {
     return (
 
       <div className="problems-list">
-        {console.log(this.state.clickedProblem)}
         {this.state.problems.map((problem, index) => (
           <Problem
             callback={this.handleProblemChange}

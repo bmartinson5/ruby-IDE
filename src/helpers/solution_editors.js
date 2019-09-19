@@ -4,7 +4,7 @@ export const solution_editors = [
     blocks: [
       {
         key: "5h45a",
-        text: "# @param {Interger} count_to",
+        text: "# @param {Interger Array} arr, {Integer} target",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
@@ -12,7 +12,7 @@ export const solution_editors = [
       },
       {
         key: "5h45b",
-        text: "# @return {Null} printed lines",
+        text: "# @return {Integer Array}",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
@@ -20,7 +20,7 @@ export const solution_editors = [
       },
 
       {
-        key: "5h45l",
+        key: "5h45c",
         text: "def two_sum(arr, target)",
         type: "unstyled",
         depth: 0,
@@ -28,23 +28,63 @@ export const solution_editors = [
         data: {}
       },
       {
-        key: "5h45r",
-        text: "    ",
+        key: "5h45d",
+        text: "    arr.each_with_index do |ele, i|",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
         data: {}
       },
       {
-        key: "5h45x",
-        text: "    ",
+        key: "5h45e",
+        text: "        (i+1..arr.length-1).each do |x|",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
         data: {}
       },
       {
-        key: "5h45t",
+        key: "5h45f",
+        text: "            if arr[i]+arr[x] == target",
+        type: "unstyled",
+        depth: 0,
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: "5h45g",
+        text: "                return [i, x]",
+        type: "unstyled",
+        depth: 0,
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: "5h45h",
+        text: "            end",
+        type: "unstyled",
+        depth: 0,
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: "5h45i",
+        text: "        end",
+        type: "unstyled",
+        depth: 0,
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: "5h45j",
+        text: "    end",
+        type: "unstyled",
+        depth: 0,
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: "5h45k",
         text: "end",
         type: "unstyled",
         depth: 0,
@@ -58,7 +98,7 @@ export const solution_editors = [
     blocks: [
       {
         key: "5h45a",
-        text: "# @param {Interger} count_to",
+        text: "# @param {String} word",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
@@ -66,7 +106,7 @@ export const solution_editors = [
       },
       {
         key: "5h45b",
-        text: "# @return {Null} printed lines",
+        text: "# @return {Boolean}",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
@@ -82,7 +122,7 @@ export const solution_editors = [
       },
       {
         key: "5h45r",
-        text: "    ",
+        text: "    word = word.downcase",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
@@ -90,7 +130,15 @@ export const solution_editors = [
       },
       {
         key: "5h45x",
-        text: "    ",
+        text: "    word = word.gsub(/[^0-9a-z]/i, '')",
+        type: "unstyled",
+        depth: 0,
+        entityRanges: [],
+        data: {}
+      },
+      {
+        key: "5h46x",
+        text: "    return word == word.reverse",
         type: "unstyled",
         depth: 0,
         entityRanges: [],
