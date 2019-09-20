@@ -13,7 +13,7 @@ body {
 .navbar, .footer {
   height: auto;
   padding: 10px;
-  background-color: #F2F2F2;
+  background-color: #465561;
   margin-bottom: 0px;
 }
 
@@ -22,7 +22,7 @@ width: 100%;
 font-family: 'Cinzel', serif;
 }
 
-.navbar-item:hover {
+.navbar-items:hover {
 color: #CCB868;
 
 }
@@ -34,16 +34,18 @@ font-size: 22px;
 }
 
 .logo {
-display: inline-block;
-width: 30%;
-margin-left: 50px;
-font-size: 35px;
+  display: inline-block;
+  width: 30%;
+  margin-left: 50px;
+  font-size: 35px;
+  font-weight: 900;
+  color: #F76C8D;
 }
 
 h1 {
   margin-left: 100px;
   margin-top: 25px;
-  color: #21230E;
+  color: green;
 }
 
 .app-container, .editor-container{
@@ -60,7 +62,7 @@ footer {
   position: fixed;
   left:0px;
    bottom:0px;
-   background-color: #F2F2F2;
+   background-color: #465561;
    border-top: 1.5px solid #cccccc;
    height: 30px;
    width:100%;
@@ -89,7 +91,7 @@ footer {
 }
 
 .selected-item {
-  background-color: #ffe068;
+  background-color: #FFD56B;
 }
 
 .problem-description {
@@ -107,17 +109,22 @@ footer {
   resize: none;
   outline: none;
   border: 1.5px solid #cccccc;
+  border-left: none;
   overflow-y:auto;
   font-family: Tahoma, sans-serif;
+  background-color: #FCFCFC;
 }
 
 .problem-description {
   padding: 20px;
   font-size: 20px;
   padding: 20px;
+  background-color: #FCFCFC;
+  height: 100%;
 }
 
 .test-output {
   padding: 40px;
+  padding-top: 20px;
   padding-left: 60px;
 }
