@@ -363,18 +363,22 @@ export default class Editor extends React.Component {
 
     return (
         <div className="editor">
-          <div className="side-numbers">{lineNumsOutput}</div>
-          <Draft.Editor
-            editorState={this.state.editorState}
-            onChange={this.editorStateChanged}
-            onTab={this.handleTab}
-            keyBindingFn={this.keyBindingFn}
-          />
-
-        <button className="run-button" onClick={() => this.props.handleRunCode(this.state.editorState.getCurrentContent())}>Run Code</button>
-        <button className="solution-button" onClick={() => this.toggleSolution()}>
+          <div className="editor-buttons">
+            <button className="run-button" onClick={() => this.props.handleRunCode(this.state.editorState.getCurrentContent())}>Run Code</button>
+            <button className="solution-button" onClick={() => this.toggleSolution()}>
             {!this.state.solutionShow ? <span>Show Solution</span>: <span>Hide Solution</span>}
-        </button>
+            </button>
+          </div>
+          <div className="editor-box">
+            <div className="side-numbers">{lineNumsOutput}</div>
+            <Draft.Editor
+              editorState={this.state.editorState}
+              onChange={this.editorStateChanged}
+              onTab={this.handleTab}
+              keyBindingFn={this.keyBindingFn}
+            />
+
+          </div>
         </div>
     );
   }

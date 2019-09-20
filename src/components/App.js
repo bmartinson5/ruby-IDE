@@ -38,8 +38,8 @@ class App extends Component {
     const rawJson = Draft.convertToRaw(currentEditor);
     const pid = this.state.currentProblem;
     this.setState({ loading: true })
-    // axios.post('https://ruby-runner-api.herokuapp.com/contents', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
-    axios.post('http://localhost:3000/run/', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
+    axios.post('https://ruby-runner-api.herokuapp.com/run', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
+    // axios.post('http://localhost:3000/run/', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
          .then(response => {
            this.setState({
              loading: false,

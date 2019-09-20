@@ -33,13 +33,22 @@ div[contenteditable="true"] {
   display: inline-block;
 }
 
+.editor-box {
+  margin-top: 10px;
+}
+.editor-buttons {
+  margin-top: 10px;
+}
+
+
 .run-button, .solution-button{
-  color: teal;
+  box-shadow: .3px .3px;
+  color: black;
   position: absolute;
-  right: 8%;
-  top: 80%;
-  width: 120px;
-  height: 50px;
+  right: 21%;
+  top: 1%;
+  width: 100px;
+  height: 30px;
   border-radius: 10px;
   background-color: #F2F2F2;
   font-size: 15px;
@@ -47,8 +56,8 @@ div[contenteditable="true"] {
 
 .solution-button {
   width: 120px;
-  right: 8%;
-  top: 90%;
+  right: 1.5%;
+  top: 1%;
 }
 
 
