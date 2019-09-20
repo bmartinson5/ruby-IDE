@@ -4,9 +4,12 @@ h1 {
   color: #21230E;
 }
 
-.container {
+.app-container, .editor-container{
   white-space: nowrap;
+  padding: 0;
+  margin: 0;
 }
+
 
 .code-runner {
   white-space: normal;

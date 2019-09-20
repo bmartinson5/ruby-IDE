@@ -25,7 +25,8 @@ div[contenteditable="true"] {
   overflow-y:auto;
   background-color: white;
   border: 1.5px solid #cccccc;
-  height: 880px;
+  /* height: 880px; */
+  height: 85vh;
   vertical-align: top;
   margin: 10px;
   min-width: 500px;

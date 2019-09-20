@@ -103,7 +103,7 @@ class EditorControl extends Component {
         // <CodeRunner  savedTests={this.state.savedTests[this.state.currentProblem]} codeOutput={this.state.codeOutput} />
   render(){
     return (
-      <div className="container">
+      <div className="editor-container">
         <Problems callback={this.handleProblemChange}/>
         <Editor handleRunCode={this.handleRunCode}
           default_editors={this.state.savedEditors}
