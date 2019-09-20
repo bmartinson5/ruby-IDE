@@ -1,6 +1,6 @@
 import React from "react";
 import Problem from "./Problem.js"
-import "../css/Problems.css";
+import "../css/App.css";
 import {problem_names} from '../helpers/default_problems'
 import {descriptions} from '../helpers/descriptions'
 

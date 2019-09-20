@@ -3,7 +3,8 @@ import "../css/App.css";
 import * as Draft from "draft-js";
 import axios from 'axios'
 import Navbar from "./Navbar";
-import EditorControl from './EditorControl'
+import EditorControl from './EditorControl';
+import Grid from '@material-ui/core/Grid';
 
 class App extends Component {
   constructor(props){
@@ -27,11 +28,23 @@ class App extends Component {
   render(){
     return (
       <div className="app-container">
-        <Navbar />
-        <EditorControl />
-        <footer>
-          Footer
-        </footer>
+        <Grid container spacing={30}>
+          <Grid item xs>
+          <Navbar />
+          </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs>
+          <EditorControl />
+          </Grid>
+        </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs>
+          <footer>
+            Footer
+          </footer>
+          </Grid>
+        </Grid>
       </div>
     );
   }

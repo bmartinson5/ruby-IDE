@@ -4,29 +4,20 @@ body {
 
 
 // Grid layout
-body {
+
+.app-container {
   display: grid;
-  grid-template-areas: 'header header'
-                       'problems editor code-runner'
-                       'footer footer';
-  grid-template-columns: auto 5fr auto;
-  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr 3fr 1fr;
 }
 
 .navbar {
-  grid-area: header;
-  padding: 10px;
+  /* padding: 10px;
   border-bottom: 5px solid black;
   background-color: #F2F2F2;
-  margin-bottom: 0px;
+  margin-bottom: 0px; */
 }
 
-footer {
-  grid-area: footer;
-}
-
-
-.navbar-items {
+/* .navbar-items {
 width: 100%;
 font-family: 'Cinzel', serif;
 }
@@ -47,13 +38,9 @@ display: inline-block;
 width: 30%;
 margin-left: 50px;
 font-size: 35px;
-}
+} */
 
-* {
-  box-sizing: border-box;
-}
-
-
+/*
 h1 {
   margin-left: 100px;
   margin-top: 25px;
@@ -68,11 +55,11 @@ h1 {
 
 .code-runner, .problems-list, .editor {
   height: 90vh;
-}
+} */
 
 .problems-list {
-  grid-area: problems;
-  white-space: normal;
+  /* grid-area: problems; */
+  /* white-space: normal;
   background-color: white;
   color: black;
   font-size: 20px;
@@ -81,10 +68,10 @@ h1 {
   outline: none;
   border: 1.5px solid #cccccc;
   overflow-y:auto;
-  font-family: Tahoma, sans-serif;
+  font-family: Tahoma, sans-serif; */
 }
 
-.problem-list-item {
+/* .problem-list-item {
   background-color: #F2F2F2;
   border-bottom: 2px solid #cccccc;
   padding: 20px;
@@ -99,11 +86,11 @@ h1 {
   font-size: 20px;
   padding: 20px;
 }
-
+ */
 
 .code-runner {
-  grid-area: code-runner;
-  white-space: normal;
+  /* grid-area: code-runner; */
+  /* white-space: normal;
   background-color: white;
   color: black;
   font-size: 20px;
@@ -111,17 +98,16 @@ h1 {
   outline: none;
   border: 1.5px solid #cccccc;
   overflow-y:auto;
-  font-family: Tahoma, sans-serif;
+  font-family: Tahoma, sans-serif; */
 }
 
-.problem-description {
+/* .problem-description {
   padding: 20px;
   font-size: 20px;
   padding: 20px;
 }
 
 .test-output {
-  height: 85vh;
   padding: 40px;
   padding-left: 60px;
-}
+} */

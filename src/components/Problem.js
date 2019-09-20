@@ -1,5 +1,5 @@
 import React from "react";
-import "../css/Problems.css";
+import "../css/App.css";
 
 export default class Editor extends React.Component {
   constructor(props) {

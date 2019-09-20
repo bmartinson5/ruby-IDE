@@ -4,19 +4,15 @@ body {
 
 .container {
   margin: 20px;
-  height: 100vh;
 }
 
 div[contenteditable="true"] {
-  width: 100%;
   padding-left: 40px;
   padding-top: 30px;
-  display: inline-block;
 }
 
 
 .editor {
-  grid-area: editor;
   white-space: normal;
   font-size: 20px;
   /* position: relative; */

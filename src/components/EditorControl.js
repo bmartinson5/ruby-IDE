@@ -9,6 +9,7 @@ import Test from "./Test";
 import {default_editors} from '../helpers/default_editors.js'
 import {default_problems, problem_names} from '../helpers/default_problems.js'
 import {testInputs, expectedOutputs, testDescriptions} from '../helpers/test_params.js'
+import Grid from '@material-ui/core/Grid';
 import Loader from 'react-loader-spinner'
 
 class EditorControl extends Component {
@@ -110,7 +111,6 @@ class EditorControl extends Component {
           handleSaveEditor={this.handleSaveEditor}
           problemIndex={this.state.currentProblem}
         />
-
         <div className="code-runner">
           <div className="test-output">
             {this.state.loading ? (<div
