@@ -1,31 +1,7 @@
-.code-runner {
-  white-space: normal;
-  min-width: 200px;
-  background-color: white;
-  color: black;
-  font-size: 20px;
-  position: relative;
-  width: 20%;
-  height: 95vh;
-  margin: 10px;
-  resize: none;
-  outline: none;
-  border: 1.5px solid #cccccc;
-  padding: 0px;
-  padding-left: 0px;
-  display: inline-block;
-  overflow-y:auto;
-  font-family: Tahoma, sans-serif;
-}
 
 .problem-description {
   min-width: 200px;
   padding: 20px;
   font-size: 20px;
   padding: 20px;
-}
-
-.test-output {
-  padding: 40px;
-  padding-left: 60px;
 }

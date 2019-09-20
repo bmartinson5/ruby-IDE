@@ -1,3 +1,59 @@
+body {
+  height: 100vh;
+}
+
+
+// Grid layout
+body {
+  display: grid;
+  grid-template-areas: 'header header'
+                       'problems editor code-runner'
+                       'footer footer';
+  grid-template-columns: auto 5fr auto;
+  grid-template-rows: auto 1fr auto;
+}
+
+.navbar {
+  grid-area: header;
+  padding: 10px;
+  border-bottom: 5px solid black;
+  background-color: #F2F2F2;
+  margin-bottom: 0px;
+}
+
+footer {
+  grid-area: footer;
+}
+
+
+.navbar-items {
+width: 100%;
+font-family: 'Cinzel', serif;
+}
+
+.navbar-item:hover {
+color: #CCB868;
+
+}
+
+.navbar-item {
+display: inline-block;
+width: 20%;
+font-size: 22px;
+}
+
+.logo {
+display: inline-block;
+width: 30%;
+margin-left: 50px;
+font-size: 35px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
 h1 {
   margin-left: 100px;
   margin-top: 25px;
@@ -10,22 +66,50 @@ h1 {
   margin: 0;
 }
 
+.code-runner, .problems-list, .editor {
+  height: 90vh;
+}
 
-.code-runner {
+.problems-list {
+  grid-area: problems;
   white-space: normal;
   background-color: white;
   color: black;
   font-size: 20px;
   position: relative;
-  width: 25%;
-  height: 880px;
-  margin: 10px;
   resize: none;
   outline: none;
   border: 1.5px solid #cccccc;
-  padding: 0px;
-  padding-left: 0px;
-  display: inline-block;
+  overflow-y:auto;
+  font-family: Tahoma, sans-serif;
+}
+
+.problem-list-item {
+  background-color: #F2F2F2;
+  border-bottom: 2px solid #cccccc;
+  padding: 20px;
+  position: relative;
+}
+
+.selected-item {
+  background-color: #ffe068;
+}
+
+.problem-description {
+  font-size: 20px;
+  padding: 20px;
+}
+
+
+.code-runner {
+  grid-area: code-runner;
+  white-space: normal;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  resize: none;
+  outline: none;
+  border: 1.5px solid #cccccc;
   overflow-y:auto;
   font-family: Tahoma, sans-serif;
 }
@@ -37,6 +121,7 @@ h1 {
 }
 
 .test-output {
+  height: 85vh;
   padding: 40px;
   padding-left: 60px;
 }

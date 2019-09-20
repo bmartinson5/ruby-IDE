@@ -29,6 +29,9 @@ class App extends Component {
       <div className="app-container">
         <Navbar />
         <EditorControl />
+        <footer>
+          Footer
+        </footer>
       </div>
     );
   }
