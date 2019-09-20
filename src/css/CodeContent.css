@@ -26,7 +26,9 @@ div[contenteditable="true"] {
   overflow-y:auto;
   background-color: white;
   border: 1.5px solid #cccccc;
+  border-right: none;
   vertical-align: top;
+  min-width: 760px;
 }
 
 /* .editor-box {
@@ -38,22 +40,26 @@ div[contenteditable="true"] {
 
 
 .run-button, .solution-button{
+  position: absolute;
   box-shadow: .3px .3px;
   color: black;
-  position: absolute;
-  right: 21%;
-  top: 1%;
-  width: 100px;
+  width: 120px;
   height: 30px;
-  border-radius: 10px;
+  border-radius: 2px;
   background-color: #F2F2F2;
   font-size: 15px;
 }
 
 .solution-button {
   width: 120px;
-  right: 1.5%;
-  top: 1%;
+  right: 10%;
+  top: 50px;
+}
+
+.run-button {
+  width: 100px;
+  right: 10%;
+  top: 10px;
 }
 
 
