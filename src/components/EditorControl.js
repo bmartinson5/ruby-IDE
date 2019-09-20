@@ -49,14 +49,22 @@ class EditorControl extends Component {
   }
 
   formatCodeOutput = (tests) => {
-    let output = []
+    let output = [];
+    let passedCount = 0;
+    let failedCount = 0
 
     tests.forEach((test, index) => {
       let testInput = testInputs[this.state.currentProblem][index];
       let testDescription = testDescriptions[this.state.currentProblem][index]
       let testOutput = test ? test: "No output or return statement";
       let expectedOutput = expectedOutputs[this.state.currentProblem][index];
-      const testColor = expectedOutput == testOutput ? "green": "red"
+      let passedTest = expectedOutput == testOutput
+      if(passedTest){
+        ++passedCount;
+      } else {
+        ++failedCount;
+      }
+      const testColor = passedTest ? "green": "red"
 
       output.push(<p >Test Description: {testDescription}</p>)
       output.push(<p >Input: {testInput}</p>)
@@ -64,6 +72,10 @@ class EditorControl extends Component {
       output.push(<p style={{color: testColor}}>Output: {testOutput}</p>)
       output.push(<br/>)
     })
+    const passedColor = failedCount === 0 ? "green": "red";
+    output.unshift(<p > Tests Passed:
+      <span style={{color: passedColor}}>{passedCount}/{passedCount + failedCount}</span>
+      <br/></p>)
     this.setState({ codeOutput: output})
   }
 
