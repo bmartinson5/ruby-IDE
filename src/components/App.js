@@ -28,18 +28,14 @@ class App extends Component {
   render(){
     return (
       <div className="app-container">
-        <Grid container spacing={30}>
-          <Grid item xs>
+        <Grid container direction="column" spacing={30}>
+          <Grid item xs={12}>
           <Navbar />
           </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs>
+          <Grid item xs={12}>
           <EditorControl />
           </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs>
+          <Grid item xs={12}>
           <footer>
             Footer
           </footer>

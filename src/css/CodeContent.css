@@ -11,31 +11,30 @@ div[contenteditable="true"] {
   padding-top: 30px;
 }
 
+.editor-container {
+  height: 100%;
+}
+
 
 .editor {
   white-space: normal;
   font-size: 20px;
-  /* position: relative; */
+  position: relative;
   resize: none;
   outline: none;
   font-family: Tahoma, sans-serif;
   overflow-y:auto;
   background-color: white;
   border: 1.5px solid #cccccc;
-  /* height: 880px; */
   vertical-align: top;
-  /* margin: 10px;
-  min-width: 500px;
-  width: 45%; */
-  /* display: inline-block; */
 }
 
-.editor-box {
+/* .editor-box {
   margin-top: 10px;
 }
 .editor-buttons {
   margin-top: 10px;
-}
+} */
 
 
 .run-button, .solution-button{
