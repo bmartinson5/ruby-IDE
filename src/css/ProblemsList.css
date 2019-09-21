@@ -1,0 +1,21 @@
+.problem0 {
+  background-color: #F2F2F2;
+}
+
+
+.problem0, .problem1 {
+  padding: 20px;
+  padding-left: 15px;
+}
+
+.header {
+  font-weight: 600;
+  margin-top: 40px;
+}
+
+
+
+.problem-item {
+  display: inline-block;
+  margin-right: 30px;
+}

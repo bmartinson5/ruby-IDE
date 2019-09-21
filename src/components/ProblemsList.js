@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import '../css/Navbar.css';
+import '../css/ProblemsList.css';
 import {problem_names} from '../helpers/default_problems'
+import Grid from '@material-ui/core/Grid';
 
 class ProblemsList extends Component {
   constructor(props) {
@@ -19,11 +20,47 @@ class ProblemsList extends Component {
   }
 
   render(){
+    let bcolor = "white";
     return (
       <div className="problems-list">
-        {this.state.problems.map((problem, index) => (
-            <a onClick={() => this.props.loadProblem(index)}><p>problem: {problem}</p></a>
-        ))}
+        <Grid container>
+          <Grid item xs>
+          </Grid>
+          <Grid item xs={8}>
+          <div className="problem1 header">
+            <Grid container>
+              <Grid item xs={3}>
+                Title
+              </Grid>
+              <Grid item xs={3}>
+                Difficulty
+              </Grid>
+              <Grid item xs={3}>
+                Something
+              </Grid>
+            </Grid>
+          </div>
+          {this.state.problems.map((problem, index) => (
+              <a onClick={() => this.props.loadProblem(index)}>
+                  <div className={`problem${index%2}`}>
+                    <Grid container>
+                      <Grid item xs={3}>
+                        {problem}
+                      </Grid>
+                      <Grid item xs={3}>
+                        {problem}
+                      </Grid>
+                      <Grid item xs={3}>
+                        {problem}
+                      </Grid>
+                    </Grid>
+                  </div>
+              </a>
+          ))}
+          </Grid>
+          <Grid item xs>
+          </Grid>
+        </Grid>
       </div>
     )
   }

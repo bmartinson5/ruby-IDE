@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "../css/App.css";
-import CodeContent from "./CodeContent";
 import Editor from "./Editor";
 import ProblemSuggestions from "./ProblemSuggestions";
 import * as Draft from "draft-js";
