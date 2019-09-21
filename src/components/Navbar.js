@@ -14,10 +14,9 @@ class Navbar extends Component {
             Ruby Runner
           </div>
           <div className="navbar-item">
-
+            <a href="#" onClick={() => this.props.changePage("problemsList")}>Problems</a>
           </div>
           <div className="navbar-item">
-
           </div>
 
         </div>

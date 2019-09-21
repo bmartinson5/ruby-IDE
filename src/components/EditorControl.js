@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../css/App.css";
 import CodeContent from "./CodeContent";
 import Editor from "./Editor";
-import Problems from "./Problems";
+import ProblemSuggestions from "./ProblemSuggestions";
 import * as Draft from "draft-js";
 import axios from 'axios'
 import Test from "./Test";
@@ -108,7 +108,7 @@ class EditorControl extends Component {
       <div className="editor-container">
         <Grid container direction="row">
           <Grid item xs>
-            <Problems callback={this.handleProblemChange}/>
+            <ProblemSuggestions callback={this.handleProblemChange}/>
           </Grid>
           <Grid item xs={6}>
             <Editor handleRunCode={this.handleRunCode}

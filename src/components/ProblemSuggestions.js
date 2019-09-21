@@ -1,5 +1,5 @@
 import React from "react";
-import Problem from "./Problem.js"
+import ProblemSuggestion from "./ProblemSuggestion.js"
 import "../css/App.css";
 import {problem_names} from '../helpers/default_problems'
 import {descriptions} from '../helpers/descriptions'
@@ -26,7 +26,7 @@ export default class Editor extends React.Component {
 
       <div className="problems-list">
         {this.state.problems.map((problem, index) => (
-          <Problem
+          <ProblemSuggestion
             callback={this.handleProblemChange}
             selected={this.state.clickedProblem === index}
             problemName={this.state.problems[index]}

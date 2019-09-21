@@ -3,6 +3,7 @@ import "../css/App.css";
 import * as Draft from "draft-js";
 import axios from 'axios'
 import Navbar from "./Navbar";
+import ProblemsList from './ProblemsList'
 import EditorControl from './EditorControl';
 import Grid from '@material-ui/core/Grid';
 
@@ -11,6 +12,7 @@ class App extends Component {
     super(props)
     this.state = {
       currentProblem: 0,
+      currentPage: "editor"
     }
   }
 
@@ -23,6 +25,10 @@ class App extends Component {
           })
   }
 
+  changePage = (pageName) => {
+    this.setState({currentPage: pageName})
+  }
+
         //  <span>Loading: takes a few seconds for the server to start at first</span>
         // <CodeRunner  savedTests={this.state.savedTests[this.state.currentProblem]} codeOutput={this.state.codeOutput} />
   render(){
@@ -30,14 +36,14 @@ class App extends Component {
       <div className="app-container">
         <Grid container direction="column" spacing={30}>
           <Grid item xs={12}>
-          <Navbar />
+          <Navbar changePage={this.changePage}/>
           </Grid>
           <Grid item xs={12}>
-          <EditorControl />
+          {this.state.currentPage === "problemsList" && <ProblemsList />}
+          {this.state.currentPage === "editor" && <EditorControl />}
           </Grid>
           <Grid item xs={12}>
           <footer>
-            
           </footer>
           </Grid>
         </Grid>
