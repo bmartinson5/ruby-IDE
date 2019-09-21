@@ -5,12 +5,12 @@ import {problem_names} from '../helpers/default_problems'
 import {descriptions} from '../helpers/descriptions'
 
 
-export default class Editor extends React.Component {
+export default class ProblemSuggestions extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       problems: problem_names,
-      clickedProblem: 0
+      clickedProblem: this.props.problemIndex
     }
   }
 

@@ -11,7 +11,7 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      currentProblem: 0,
+      selectedProblem: 0,
       currentPage: "editor"
     }
   }
@@ -29,6 +29,13 @@ class App extends Component {
     this.setState({currentPage: pageName})
   }
 
+  loadProblem = (problemNumber) => {
+    this.setState({
+      currentPage: "editor",
+      selectedProblem: problemNumber
+    })
+  }
+
         //  <span>Loading: takes a few seconds for the server to start at first</span>
         // <CodeRunner  savedTests={this.state.savedTests[this.state.currentProblem]} codeOutput={this.state.codeOutput} />
   render(){
@@ -36,15 +43,15 @@ class App extends Component {
       <div className="app-container">
         <Grid container direction="column" spacing={30}>
           <Grid item xs={12}>
-          <Navbar changePage={this.changePage}/>
+            <Navbar changePage={this.changePage}/>
           </Grid>
           <Grid item xs={12}>
-          {this.state.currentPage === "problemsList" && <ProblemsList />}
-          {this.state.currentPage === "editor" && <EditorControl />}
+            {this.state.currentPage === "problemsList" && <ProblemsList loadProblem={this.loadProblem}/>}
+            {this.state.currentPage === "editor" && <EditorControl selectedProblem={this.state.selectedProblem}/>}
           </Grid>
           <Grid item xs={12}>
-          <footer>
-          </footer>
+            <footer>
+            </footer>
           </Grid>
         </Grid>
       </div>

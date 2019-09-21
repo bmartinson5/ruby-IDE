@@ -15,8 +15,9 @@ import Loader from 'react-loader-spinner'
 class EditorControl extends Component {
   constructor(props){
     super(props)
+    console.log(this.props.selectedProblem);
     this.state = {
-      currentProblem: 0,
+      currentProblem: this.props.selectedProblem,
       codeOutput: "",
       savedTests: ["", "", "", "", ""],
       loading: false,
@@ -108,7 +109,7 @@ class EditorControl extends Component {
       <div className="editor-container">
         <Grid container direction="row">
           <Grid item xs>
-            <ProblemSuggestions callback={this.handleProblemChange}/>
+            <ProblemSuggestions callback={this.handleProblemChange} problemIndex={this.state.currentProblem}/>
           </Grid>
           <Grid item xs={6}>
             <Editor handleRunCode={this.handleRunCode}
