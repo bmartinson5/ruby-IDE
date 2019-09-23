@@ -36,8 +36,6 @@ class App extends Component {
     })
   }
 
-        //  <span>Loading: takes a few seconds for the server to start at first</span>
-        // <CodeRunner  savedTests={this.state.savedTests[this.state.currentProblem]} codeOutput={this.state.codeOutput} />
   render(){
     return (
       <div className="app-container">
