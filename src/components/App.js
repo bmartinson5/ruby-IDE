@@ -12,7 +12,7 @@ class App extends Component {
     super(props)
     this.state = {
       selectedProblem: 0,
-      currentPage: "problemsList"
+      currentPage: "editor"
     }
   }
 

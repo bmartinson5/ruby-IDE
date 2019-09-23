@@ -1,6 +1,6 @@
 import React from "react";
 import ProblemSuggestion from "./ProblemSuggestion.js"
-import "../css/App.css";
+import "../css/ProblemSuggestions.css";
 import {problem_names} from '../helpers/default_problems'
 import {descriptions} from '../helpers/descriptions'
 

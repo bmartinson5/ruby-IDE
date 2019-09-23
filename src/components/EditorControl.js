@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../css/App.css";
+import "../css/CodeRunner.css";
 import Editor from "./Editor";
 import ProblemSuggestions from "./ProblemSuggestions";
 import * as Draft from "draft-js";
@@ -29,15 +30,19 @@ class EditorControl extends Component {
     const rawJson = Draft.convertToRaw(currentEditor);
     const pid = this.state.currentProblem;
     this.setState({ loading: true })
-    axios.post('https://ruby-runner-api.herokuapp.com/run', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
-    // axios.post('http://localhost:3000/run/', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
+    // axios.post('https://ruby-runner-api.herokuapp.com/run', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
+    axios.post('http://localhost:3000/run/', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
          .then(response => {
            this.setState({
              loading: false,
              firstCallToAPi: false
            })
            console.log('response ', response.data);
-           this.formatCodeOutput(response.data)
+           if(response.data[0].includes("Unpermitted")){
+             this.setState({codeOutput: response.data})
+           } else {
+             this.formatCodeOutput(response.data)
+           }
          })
          .catch(error => {
            this.setState({
@@ -48,6 +53,10 @@ class EditorControl extends Component {
            console.log('error', error.response)
          })
   }
+
+  // formatErrorOutput = (error) => {
+  //
+  // }
 
   formatCodeOutput = (tests) => {
     let output = [];
