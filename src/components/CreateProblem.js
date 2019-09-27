@@ -15,7 +15,7 @@ export default class CreateProblem extends Component {
       testDescriptions: [],
       expectedOutputs: [],
       numberOfTests: 0,
-      difficulty: "easy"
+      difficulty: "Easy"
     }
   }
 
@@ -30,14 +30,11 @@ export default class CreateProblem extends Component {
   handleTestChange = (evt, testNumber) => {
     const type = this.state[evt.target.name].slice();
     type[testNumber] = evt.target.value;
-    console.log('tests', type);
     this.setState({[evt.target.name]: type})
   }
 
   reformatProblemObject = () => {
-    console.log('params, ', this.state.params);
     const params = this.state.params.split(',');
-    const
     this.setState({params},
       () => this.props.addProblem(this.state)
     )
@@ -67,6 +64,12 @@ export default class CreateProblem extends Component {
         <input type="text" value={this.state.descriptionExample} name="descriptionExample" onChange={this.handleChange} placeholder="Description Example"/><br/>
         <input type="number" value={this.state.numberOfTests} name="numberOfTests" onChange={this.handleChange} placeholder=""/>"Number of Tests"<br/>
         {tests}
+
+        <p>Difficulty</p>
+        Easy<input type="radio" name="difficulty" value="Easy" checked={this.state.difficulty === 'Easy'} onChange={this.handleChange} />
+      Medium<input type="radio" name="difficulty" value="Medium" checked={this.state.difficulty === 'Medium'} onChange={this.handleChange} />
+    Hard<input type="radio" name="difficulty" value="Hard" checked={this.state.difficulty === 'Hard'} onChange={this.handleChange} />
+        <br/>
 
         <button onClick={() => this.reformatProblemObject()}>Add Problem</button><br/>
       </div>
