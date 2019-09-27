@@ -7,8 +7,7 @@ import * as Draft from "draft-js";
 import axios from 'axios'
 import Test from "./Test";
 import {default_editors} from '../helpers/default_editors.js'
-import {default_problems, problem_names} from '../helpers/default_problems.js'
-import {testInputs, expectedOutputs, testDescriptions} from '../helpers/test_params.js'
+import {problems} from '../helpers/default_problems'
 import Grid from '@material-ui/core/Grid';
 import Loader from 'react-loader-spinner'
 
@@ -30,8 +29,8 @@ class EditorControl extends Component {
     const rawJson = Draft.convertToRaw(currentEditor);
     const pid = this.state.currentProblem;
     this.setState({ loading: true })
-    // axios.post('https://ruby-runner-api.herokuapp.com/run', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
-    axios.post('http://localhost:3000/run/', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
+    axios.post('https://ruby-runner-api.herokuapp.com/run', ({function_name: problems[pid]["functionName"].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
+    // axios.post('http://localhost:3000/run/', ({function_name: default_problems[pid].toLowerCase(), content: rawJson, problem_index: this.state.currentProblem}))
          .then(response => {
            this.setState({
              loading: false,
@@ -63,11 +62,13 @@ class EditorControl extends Component {
     let passedCount = 0;
     let failedCount = 0
 
-    tests.forEach((test, index) => {
-      let testInput = testInputs[this.state.currentProblem][index];
-      let testDescription = testDescriptions[this.state.currentProblem][index]
+    const currentProblem = problems[this.state.currentProblem];
+
+    tests.forEach((test, testIndex) => {
+      let testInput = currentProblem["testInputs"][testIndex];
+      let testDescription = currentProblem["testDescriptions"][testIndex]
+      let expectedOutput = currentProblem["expectedOutputs"][testIndex];
       let testOutput = test ? test: "No output or return statement";
-      let expectedOutput = expectedOutputs[this.state.currentProblem][index];
       let passedTest = expectedOutput == testOutput
       if(passedTest){
         ++passedCount;

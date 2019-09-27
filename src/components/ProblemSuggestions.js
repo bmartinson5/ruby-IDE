@@ -1,15 +1,14 @@
 import React from "react";
 import ProblemSuggestion from "./ProblemSuggestion.js"
 import "../css/ProblemSuggestions.css";
-import {problem_names} from '../helpers/default_problems'
-import {descriptions} from '../helpers/descriptions'
+import {problems} from '../helpers/default_problems'
 
 
 export default class ProblemSuggestions extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      problems: problem_names,
+      problems: problems,
       clickedProblem: this.props.problemIndex
     }
   }
@@ -22,24 +21,25 @@ export default class ProblemSuggestions extends React.Component {
   }
 
   render(){
+    const {problems, clickedProblem} = this.state
     return (
 
       <div className="problems-list">
-        {this.state.problems.map((problem, index) => (
+        {problems.map((problem, index) => (
           <ProblemSuggestion
             callback={this.handleProblemChange}
-            selected={this.state.clickedProblem === index}
-            problemName={this.state.problems[index]}
+            selected={clickedProblem === index}
+            problemName={problem["name"]}
             index={index}
           />
         ))}
         <div className="problem-description">
            <p>
-            {descriptions[this.state.clickedProblem].content}
+            {problems[clickedProblem]["description"].content}
            </p>
            <h5>Example: </h5>
            <p>
-            {descriptions[this.state.clickedProblem].example}
+            {problems[clickedProblem]["description"].example}
            </p>
         </div>
       </div>
