@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import '../css/ProblemsList.css';
-import {problem_names} from '../helpers/default_problems'
+import {problems} from '../helpers/default_problems'
 import Grid from '@material-ui/core/Grid';
 
 class ProblemsList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      problems: problem_names,
+      problems: problems,
       clickedProblem: 0
     }
   }
@@ -36,7 +36,10 @@ class ProblemsList extends Component {
                 Difficulty
               </Grid>
               <Grid item xs={3}>
-                Something
+                Completed?
+              </Grid>
+              <Grid item xs={3}>
+                Has Solution?
               </Grid>
             </Grid>
           </div>
@@ -45,13 +48,16 @@ class ProblemsList extends Component {
                   <div className={`problem${index%2}`}>
                     <Grid container>
                       <Grid item xs={3}>
-                        {problem}
+                        {problem["name"]}
                       </Grid>
                       <Grid item xs={3}>
-                        {problem}
+                        {problem["difficulty"]}
                       </Grid>
                       <Grid item xs={3}>
-                        {problem}
+                        {problem["completed"]}
+                      </Grid>
+                      <Grid item xs={3}>
+                        {problem["hasSolution"]}
                       </Grid>
                     </Grid>
                   </div>

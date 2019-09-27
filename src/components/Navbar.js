@@ -4,7 +4,6 @@ import '../css/Navbar.css';
 class Navbar extends Component {
   constructor(props){
     super(props)
-            //<a href="#" onClick={() => this.props.changePage("problemsList")}>Problems</a>
   }
 
   render(){
@@ -12,9 +11,10 @@ class Navbar extends Component {
       <div className="navbar">
         <div className="navbar-items">
           <div className="logo">
-            Ruby Runner
+            Code Wars
           </div>
           <div className="navbar-item">
+            <a href="#" onClick={() => this.props.changePage("problemsList")}>Problems</a>
           </div>
           <div className="navbar-item">
           </div>
