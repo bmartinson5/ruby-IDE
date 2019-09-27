@@ -5,6 +5,7 @@ import axios from 'axios'
 import Navbar from "./Navbar";
 import ProblemsList from './ProblemsList'
 import EditorControl from './EditorControl';
+import CreateProblem from './CreateProblem';
 import Grid from '@material-ui/core/Grid';
 
 class App extends Component {
@@ -46,6 +47,7 @@ class App extends Component {
           <Grid item xs={12}>
             {this.state.currentPage === "problemsList" && <ProblemsList loadProblem={this.loadProblem}/>}
             {this.state.currentPage === "editor" && <EditorControl selectedProblem={this.state.selectedProblem}/>}
+            {this.state.currentPage === "createProblem" && <CreateProblem />}
           </Grid>
           <Grid item xs={12}>
             <footer>

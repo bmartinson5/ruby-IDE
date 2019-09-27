@@ -17,6 +17,7 @@ class Navbar extends Component {
             <a href="#" onClick={() => this.props.changePage("problemsList")}>Problems</a>
           </div>
           <div className="navbar-item">
+            <a href="#" onClick={() => this.props.changePage("createProblem")}>Create</a>
           </div>
 
         </div>
