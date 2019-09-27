@@ -8,7 +8,8 @@ export default class CreateProblem extends Component {
     this.state = {
       functionName: "",
       name: "",
-      description: "",
+      descriptionContent: "",
+      descriptionExample: "",
       params: "",
       testInputs: "",
       testDescriptions: "",
@@ -25,7 +26,8 @@ export default class CreateProblem extends Component {
       <div>Create a custom problem to Solve! <br/>
         <input type="number" value={this.state.functionName} name="functionName" onChange={this.handleChange} placeholder="Name of the main function called"/><br/>
         <input type="text" value={this.state.name} name="name" onChange={this.handleChange} placeholder="Problem Name"/><br/>
-        <input type="text" value={this.state.description} name="description" onChange={this.handleChange} placeholder="Description"/><br/>
+        <input type="text" value={this.state.descriptionContent} name="descriptionContent" onChange={this.handleChange} placeholder="Description Content"/><br/>
+        <input type="text" value={this.state.descriptionExample} name="descriptionExample" onChange={this.handleChange} placeholder="Description Example"/><br/>
         <input type="text" value={this.state.params} name="params" onChange={this.handleChange} placeholder="Function Parameters"/><br/>
         <input type="text" value={this.state.testDescription} name="testDescription" onChange={this.handleChange} placeholder="Test Descriptions"/><br/>
         <input type="text" value={this.state.testInputs} name="testInputs" onChange={this.handleChange} placeholder="Test Inputs"/><br/>
