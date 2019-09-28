@@ -1,11 +1,3 @@
-
-.problem-description {
-  min-width: 200px;
-  padding: 20px;
-  font-size: 20px;
-  padding: 20px;
-}
-
 .code-runner {
   grid-area: code-runner;
   white-space: normal;
@@ -34,6 +26,6 @@
 
 .test-output {
   padding: 40px;
-  padding-top: 20px;
+  padding-top: 30px;
   padding-left: 60px;
 }

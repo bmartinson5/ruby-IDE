@@ -13,7 +13,7 @@ class App extends Component {
     super(props)
     this.state = {
       selectedProblem: 0,
-      currentPage: "problemsList"
+      currentPage: "createProblem"
     }
   }
 
@@ -46,8 +46,8 @@ class App extends Component {
           </Grid>
           <Grid item xs={12}>
             {this.state.currentPage === "problemsList" && <ProblemsList loadProblem={this.loadProblem}/>}
-            {this.state.currentPage === "editor" && <EditorControl selectedProblem={this.state.selectedProblem}/>}
-            {this.state.currentPage === "createProblem" && <CreateProblem />}
+            {this.state.currentPage === "editor" && <EditorControl createMode={false} selectedProblem={this.state.selectedProblem}/>}
+            {this.state.currentPage === "createProblem" && <EditorControl createMode={true} selectedProblem={this.state.selectedProblem}/>}
           </Grid>
           <Grid item xs={12}>
             <footer>

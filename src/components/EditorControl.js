@@ -3,6 +3,7 @@ import "../css/App.css";
 import "../css/CodeRunner.css";
 import Editor from "./Editor";
 import ProblemSuggestions from "./ProblemSuggestions";
+import CreateProblem from './CreateProblem';
 import * as Draft from "draft-js";
 import axios from 'axios'
 import Test from "./Test";
@@ -21,7 +22,7 @@ class EditorControl extends Component {
       savedTests: ["", "", "", "", ""],
       loading: false,
       firstCallToAPi: true,
-      savedEditors: default_editors
+      savedEditors: default_editors,
     }
   }
 
@@ -118,7 +119,10 @@ class EditorControl extends Component {
       <div className="editor-container">
         <Grid container direction="row">
           <Grid item xs>
-            <ProblemSuggestions callback={this.handleProblemChange} problemIndex={this.state.currentProblem}/>
+            {this.props.createMode ?
+              <CreateProblem /> :
+              <ProblemSuggestions callback={this.handleProblemChange} problemIndex={this.state.currentProblem}/>
+            }
           </Grid>
           <Grid item xs={6}>
             <Editor handleRunCode={this.handleRunCode}
