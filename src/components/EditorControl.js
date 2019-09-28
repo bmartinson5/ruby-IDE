@@ -4,6 +4,7 @@ import "../css/CodeRunner.css";
 import Editor from "./Editor";
 import ProblemSuggestions from "./ProblemSuggestions";
 import CreateProblem from './CreateProblem';
+import CreateTests from './CreateTests';
 import * as Draft from "draft-js";
 import axios from 'axios'
 import Test from "./Test";
@@ -133,21 +134,26 @@ class EditorControl extends Component {
           </Grid>
           <Grid item xs>
             <div className="code-runner">
-              <div className="test-output">
-                {this.state.loading ? (<div
-                   style={{
-                      width: "100%",
-                      height: "100",
-                      display: "block",
-                      justifyContent: "center",
-                      alignItems: "center"
-                    }}
-                    >
-                    <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
-                    {this.state.firstCallToAPi && <p> Starting the server: Might take a few seconds</p>}
-                    </div>):
-                (this.state.codeOutput ? this.state.codeOutput: (<span style={{color: "grey"}}>Run some code to display tests</span>))}
-              </div>
+              {this.props.createMode ?
+                <CreateTests />:
+                (
+                  <div className="test-output">
+                    {this.state.loading ? (<div
+                       style={{
+                          width: "100%",
+                          height: "100",
+                          display: "block",
+                          justifyContent: "center",
+                          alignItems: "center"
+                        }}
+                        >
+                        <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+                        {this.state.firstCallToAPi && <p> Starting the server: Might take a few seconds</p>}
+                        </div>):
+                    (this.state.codeOutput ? this.state.codeOutput: (<span style={{color: "grey"}}>Run some code to display tests</span>))}
+                  </div>
+                )
+              }
             </div>
           </Grid>
         </Grid>

@@ -17,7 +17,6 @@
 .problem-description {
   padding: 20px;
   font-size: 20px;
-  padding: 20px;
   background-color: #FCFCFC;
   height: 100%;
 }
@@ -25,7 +24,6 @@
 
 
 .test-output {
-  padding: 40px;
   padding-top: 30px;
   padding-left: 60px;
 }

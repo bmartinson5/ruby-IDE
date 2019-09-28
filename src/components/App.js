@@ -15,7 +15,7 @@ class App extends Component {
     this.state = {
       selectedProblem: 0,
       problems: problems,
-      currentPage: "problemsList"
+      currentPage: "createProblem"
     }
   }
 
