@@ -7,13 +7,15 @@ import ProblemsList from './ProblemsList'
 import EditorControl from './EditorControl';
 import CreateProblem from './CreateProblem';
 import Grid from '@material-ui/core/Grid';
+import {problems} from '../helpers/default_problems'
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
       selectedProblem: 0,
-      currentPage: "createProblem"
+      problems: problems,
+      currentPage: "problemsList"
     }
   }
 
@@ -35,6 +37,12 @@ class App extends Component {
       currentPage: "editor",
       selectedProblem: problemNumber
     })
+  }
+
+  addProblem = (problem) => {
+    const problems = this.state.problems.slice();
+    problems.push(problem)
+    this.setState({problems}, console.log('problems', this.state.problems))
   }
 
   render(){
