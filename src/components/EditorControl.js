@@ -120,13 +120,12 @@ class EditorControl extends Component {
       <div className="editor-container">
         <Grid container direction="row">
           <Grid item xs>
-            {this.props.createMode ?
-              <CreateProblem /> :
-              <ProblemSuggestions callback={this.handleProblemChange} problemIndex={this.state.currentProblem}/>
-            }
+            <ProblemSuggestions callback={this.handleProblemChange} problemIndex={this.state.currentProblem}/>
           </Grid>
           <Grid item xs={6}>
-            <Editor handleRunCode={this.handleRunCode}
+            <Editor
+              createMode={false}
+              handleRunCode={this.handleRunCode}
               default_editors={this.state.savedEditors}
               handleSaveEditor={this.handleSaveEditor}
               problemIndex={this.state.currentProblem}
@@ -134,26 +133,21 @@ class EditorControl extends Component {
           </Grid>
           <Grid item xs>
             <div className="code-runner">
-              {this.props.createMode ?
-                <CreateTests />:
-                (
-                  <div className="test-output">
-                    {this.state.loading ? (<div
-                       style={{
-                          width: "100%",
-                          height: "100",
-                          display: "block",
-                          justifyContent: "center",
-                          alignItems: "center"
-                        }}
-                        >
-                        <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
-                        {this.state.firstCallToAPi && <p> Starting the server: Might take a few seconds</p>}
-                        </div>):
-                    (this.state.codeOutput ? this.state.codeOutput: (<span style={{color: "grey"}}>Run some code to display tests</span>))}
-                  </div>
-                )
-              }
+              <div className="test-output">
+                {this.state.loading ? (<div
+                   style={{
+                      width: "100%",
+                      height: "100",
+                      display: "block",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                    >
+                    <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+                    {this.state.firstCallToAPi && <p> Starting the server: Might take a few seconds</p>}
+                    </div>):
+                (this.state.codeOutput ? this.state.codeOutput: (<span style={{color: "grey"}}>Run some code to display tests</span>))}
+              </div>
             </div>
           </Grid>
         </Grid>

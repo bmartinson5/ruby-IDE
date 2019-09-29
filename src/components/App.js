@@ -5,7 +5,7 @@ import axios from 'axios'
 import Navbar from "./Navbar";
 import ProblemsList from './ProblemsList'
 import EditorControl from './EditorControl';
-import CreateProblem from './CreateProblem';
+import CreateControl from './CreateControl';
 import Grid from '@material-ui/core/Grid';
 import {problems} from '../helpers/default_problems'
 
@@ -54,8 +54,8 @@ class App extends Component {
           </Grid>
           <Grid item xs={12}>
             {this.state.currentPage === "problemsList" && <ProblemsList loadProblem={this.loadProblem}/>}
-            {this.state.currentPage === "editor" && <EditorControl createMode={false} selectedProblem={this.state.selectedProblem}/>}
-            {this.state.currentPage === "createProblem" && <EditorControl createMode={true} selectedProblem={this.state.selectedProblem}/>}
+            {this.state.currentPage === "editor" && <EditorControl selectedProblem={this.state.selectedProblem}/>}
+            {this.state.currentPage === "createProblem" && <CreateControl selectedProblem={this.state.selectedProblem}/>}
           </Grid>
           <Grid item xs={12}>
             <footer>
