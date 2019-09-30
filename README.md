@@ -1,7 +1,7 @@
 # Ruby-Runner
 #### By Ben Martinson
 
-## [Go to Site](https://bmartinson5.github.io/ruby-runner/)
+## [Go to Site https://bmartinson5.github.io/ruby-runner/](https://bmartinson5.github.io/ruby-runner/)
 
 ## Description
 
