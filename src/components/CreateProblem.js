@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import '../css/ProblemForm.css';
-import Grid from '@material-ui/core/Grid';
 
 export default class CreateProblem extends Component {
   constructor(props){
@@ -21,7 +20,9 @@ export default class CreateProblem extends Component {
   }
 
   handleChange = (evt) => {
-    this.setState({[evt.target.name]: evt.target.value });
+    this.setState({
+      [evt.target.name]: evt.target.value,
+    });
   }
 
   changeNumberOfTests = (newNum) => {
@@ -41,6 +42,10 @@ export default class CreateProblem extends Component {
     )
   }
 
+  handleRadioChange = () => {
+    console.log('here');
+  }
+
   render(){
 
     return (
@@ -52,10 +57,10 @@ export default class CreateProblem extends Component {
         <input type="text" value={this.state.descriptionContent} name="descriptionContent" onChange={this.handleChange} placeholder="Description Content"/><br/>
         <input type="text" value={this.state.descriptionExample} name="descriptionExample" onChange={this.handleChange} placeholder="Description Example"/><br/>
 
-        <p>Difficulty</p>
-        Easy<input type="radio" name="difficulty" value="Easy" checked={this.state.difficulty === 'Easy'} onChange={this.handleChange} />
+      <p>Difficulty</p>
+      Easy<input type="radio" name="difficulty" value="Easy"  checked={this.state.difficulty === 'Easy'}  onChange={this.handleChange} />
       Medium<input type="radio" name="difficulty" value="Medium" checked={this.state.difficulty === 'Medium'} onChange={this.handleChange} />
-    Hard<input type="radio" name="difficulty" value="Hard" checked={this.state.difficulty === 'Hard'} onChange={this.handleChange} />
+      Hard<input type="radio" name="difficulty" value="Hard" checked={this.state.difficulty === 'Hard'} onChange={this.handleChange} />
         <br/>
         <br/>
 

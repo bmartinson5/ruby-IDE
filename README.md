@@ -1,7 +1,7 @@
 # Ruby-Runner
 #### By Ben Martinson
 
-## [visit site](https://bmartinson5.github.io/ruby-runner/)
+## [Go to Full Site](https://bmartinson5.github.io/ruby-runner/)
 
 ## Description
 
@@ -13,7 +13,7 @@ Features included so far:
 - Auto-indentation based on scopes
 - Keyword highlighting (different colors depending on type of keyword)
 - Line numbering
-- Running code on a backend server 
+- Running code on a backend server
 - Printing output in browser
 - Testing code that is run and displaying results
 
@@ -24,7 +24,7 @@ Future feature goals:
 - Find and replace
 - Multiple files
 - Underlined errors
-- Injection security checks 
+- Injection security checks
 
 ## Setup/Installation Requirements
 
@@ -38,7 +38,7 @@ npm run start
 ```
 
 4.  Go to localhost:3000 in the browser (should open by default)
-5.  Follow steps in https://github.com/bmartinson5/ruby-ide-backend/blob/master/README.md 
+5.  Follow steps in https://github.com/bmartinson5/ruby-ide-backend/blob/master/README.md
     to run the backend server
 
 ## Known Bugs
